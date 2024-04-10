@@ -74,6 +74,18 @@ dependencies = [
 check = "mypy --namespace-packages --package antares.study.version --install-types --non-interactive"
 check-tests = "mypy --install-types --non-interactive {args:tests}"
 
+[tool.hatch.envs.docs]
+detached = true
+dependencies = [
+    "mkdocs",
+]
+
+[tool.hatch.envs.docs.scripts]
+build = "mkdocs build -f mkdocs.yml {args}"
+serve = "mkdocs serve -f mkdocs.yml {args}"
+gh-deploy = "mkdocs gh-deploy -f mkdocs.yml {args}"
+
+
 [tool.mypy]
 mypy_path = 'src, tests'
 

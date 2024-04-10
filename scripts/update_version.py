@@ -22,7 +22,7 @@ PROJECT_DIR = next(iter(p for p in HERE.parents if p.joinpath("src").exists()))
 # ==============================================================
 
 ABOUT_FILE = "src/antares/study/version/__about__.py"
-CHANGELOG_FILE = "CHANGELOG.md"
+CHANGELOG_FILE = "docs/CHANGELOG.md"
 FILES_TO_PATCH = [
     (
         ABOUT_FILE,
