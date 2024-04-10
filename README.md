@@ -3,6 +3,8 @@
 [![PyPI - Version](https://img.shields.io/pypi/v/antares-study-version.svg)](https://pypi.org/project/antares-study-version)
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/antares-study-version.svg)](https://pypi.org/project/antares-study-version)
 
+![antares-study-version-title](docs/assets/antares-study-version-title.jpeg)
+
 The `antares-study-version` package defines `StudyVersion` and `SolverVersion` classes to manage version numbers.
 
 -----

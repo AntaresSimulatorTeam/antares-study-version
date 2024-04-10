@@ -5,6 +5,8 @@
 
 Welcome to the `antares-study-version` documentation!
 
+![antares-study-version-title](assets/antares-study-version-title.jpeg)
+
 The `antares-study-version` package defines `StudyVersion` and `SolverVersion` classes to manage version numbers.
 
 **Table of Contents**
