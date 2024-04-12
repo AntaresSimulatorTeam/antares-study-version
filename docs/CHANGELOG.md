@@ -15,17 +15,17 @@ v0.1.1 (2024-04-10)
 
 ### Docs
 
-* [README.md](README.md): update doc, fix typo, add a link to the change log
+* `README.md`: update doc, fix typo, add a link to the change log
 
 ### Build
 
 * create [CHANGELOG.md](CHANGELOG.md) and update the release date
-* add [update_version.py](scripts/update_version.py) script to create or update the changelog
+* add `scripts/update_version.py` script to create or update the changelog
 
 ### CI
 
 * add missing dependency [pytest-freezer](https://pypi.org/project/pytest-freezer/) required for type checking
-* create the [GitHub workflows](.github/workflows/python-package.yml) for code style and typing check
+* create the `.github/workflows/python-package.yml` GitHub workflow for code style and typing check
 
 v0.1.0 (2024-03-20)
 -------------------
