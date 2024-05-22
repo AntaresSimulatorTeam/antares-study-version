@@ -5,7 +5,7 @@ build-backend = "hatchling.build"
 [project]
 name = "antares-study-version"
 dynamic = ["version"]
-description = 'Antares Study (and Solver) version number models'
+description = 'Study version manager for Antares ecosystem'
 readme = "README.md"
 requires-python = ">=3.8"
 license = "MIT"
@@ -39,6 +39,7 @@ attr = "__version__"
 [tool.hatch.build.targets.wheel]
 packages = ["src/antares"]
 
+
 [tool.hatch.envs.default]
 dependencies = [
     "coverage[toml]>=6.5",
@@ -63,6 +64,7 @@ cov = [
 [[tool.hatch.envs.all.matrix]]
 python = ["3.8", "3.9", "3.10", "3.11", "3.12"]
 
+
 [tool.hatch.envs.types]
 dependencies = [
     "pytest<8",
@@ -74,11 +76,10 @@ dependencies = [
 check = "mypy --namespace-packages --package antares.study.version --install-types --non-interactive"
 check-tests = "mypy --install-types --non-interactive {args:tests}"
 
+
 [tool.hatch.envs.docs]
 detached = true
-dependencies = [
-    "mkdocs",
-]
+dependencies = ["mkdocs"]
 
 [tool.hatch.envs.docs.scripts]
 build = "mkdocs build -f mkdocs.yml {args}"
