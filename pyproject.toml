@@ -2,6 +2,7 @@
 requires = ["hatchling"]
 build-backend = "hatchling.build"
 
+
 [project]
 name = "antares-study-version"
 dynamic = ["version"]
@@ -25,16 +26,23 @@ classifiers = [
     "Programming Language :: Python :: Implementation :: PyPy",
 ]
 
-dependencies = []
+dependencies = ["click", "pandas"]
+
 
 [project.urls]
 Documentation = "https://github.com/AntaresSimulatorTeam/antares-study-version#readme"
 Issues = "https://github.com/AntaresSimulatorTeam/antares-study-version/issues"
 Source = "https://github.com/AntaresSimulatorTeam/antares-study-version"
 
+
+[project.scripts]
+antares-study-version = "antares.study.version.cli:cli"
+
+
 [tool.hatch.version]
 path = "src/antares/study/version/__about__.py"
 attr = "__version__"
+
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/antares"]
@@ -47,6 +55,7 @@ dependencies = [
     "pydantic<2",
     "pytest-freezer<0.5",
 ]
+
 
 [tool.hatch.envs.default.scripts]
 test = "pytest {args:tests}"
@@ -61,6 +70,7 @@ cov = [
     "cov-report",
 ]
 
+
 [[tool.hatch.envs.all.matrix]]
 python = ["3.8", "3.9", "3.10", "3.11", "3.12"]
 
@@ -72,6 +82,8 @@ dependencies = [
     "pytest-freezer<0.5",
     "mypy>=1.0.0",
 ]
+
+
 [tool.hatch.envs.types.scripts]
 check = "mypy --namespace-packages --package antares.study.version --install-types --non-interactive"
 check-tests = "mypy --install-types --non-interactive {args:tests}"
@@ -80,6 +92,7 @@ check-tests = "mypy --install-types --non-interactive {args:tests}"
 [tool.hatch.envs.docs]
 detached = true
 dependencies = ["mkdocs"]
+
 
 [tool.hatch.envs.docs.scripts]
 build = "mkdocs build -f mkdocs.yml {args}"
@@ -90,16 +103,18 @@ gh-deploy = "mkdocs gh-deploy -f mkdocs.yml {args}"
 [tool.mypy]
 mypy_path = 'src, tests'
 
+
 [tool.coverage.run]
 source_pkgs = ["antares.study.version", "tests"]
 branch = true
 parallel = true
-omit = [
-]
+omit = []
+
 
 [tool.coverage.paths]
 antares_study_config = ["src/antares/study/version", "*/antares-study-version/src/antares/study/version"]
 tests = ["tests", "*/antares-study-version/tests"]
+
 
 [tool.coverage.report]
 exclude_lines = [
@@ -108,15 +123,18 @@ exclude_lines = [
     "if TYPE_CHECKING:",
 ]
 
+
 [tool.black]
 target-version = ["py38"]
 line-length = 120
+
 
 [tool.isort]
 profile = "black"
 line_length = 120
 src_paths = ["src", "tests"]
 skip_gitignore = true
+
 
 [tool.ruff]
 # Exclude a variety of commonly ignored directories.

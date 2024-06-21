@@ -115,9 +115,17 @@ class _TripletVersion:
 
 class SolverVersion(_TripletVersion):
     def __init__(self, major: t.Union[str, int], minor: t.Union[str, int] = 0, patch: t.Union[str, int] = 0):
-        super().__init__(int(major), int(minor), int(patch))
+        try:
+            super().__init__(int(major), int(minor), int(patch))
+        except ValueError:
+            msg = f"Invalid parameters: {(major, minor, patch)!r}: you should use `parse` method instead."
+            raise ValueError(msg) from None
 
 
 class StudyVersion(_TripletVersion):
     def __init__(self, major: t.Union[str, int], minor: t.Union[str, int] = 0, _ignored_patch: t.Union[str, int] = 0):
-        super().__init__(int(major), int(minor), 0)
+        try:
+            super().__init__(int(major), int(minor), 0)
+        except ValueError:
+            msg = f"Invalid parameters: {(major, minor)!r}: you should use `parse` method instead."
+            raise ValueError(msg) from None
