@@ -1,6 +1,24 @@
 Changelog
 =========
 
+v1.0.0 (2024-07-06)
+-------------------
+
+### Features
+
+This version allows to manage the versions of Antares raw studies (studies on disk).
+
+It contains a command line application to create a new raw study in the version of your choice,
+and to update an existing raw study to a newer version.
+
+The new CLI also allows to display the details of a raw study and to list the available versions.
+Run the following command to get more information:
+
+```bash
+antares-study-version --help
+```
+
+
 v0.1.1 (2024-04-10)
 -------------------
 
