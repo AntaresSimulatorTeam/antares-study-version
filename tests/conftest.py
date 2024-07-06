@@ -72,7 +72,7 @@ def study_assets(
         AssetNotFoundError: If the study or expected study assets are not found
         in the resource directory.
     """
-    module_path = Path(request.fspath)
+    module_path = Path(request.fspath)  # type: ignore
     assets_dir = module_path.parent.joinpath(module_path.stem.replace("test_", ""))
     asset_dir = assets_dir.joinpath(request.node.name.replace("test_", ""))
     zip_files = list(asset_dir.glob("*.zip"))

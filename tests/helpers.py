@@ -5,7 +5,7 @@ from pathlib import Path
 DEFAULT_IGNORES = frozenset(filecmp.DEFAULT_IGNORES) | {"study.ico"}
 
 
-def are_same_dir(dir1: Path, dir2: Path, *, ignore: t.Sequence[str] = DEFAULT_IGNORES) -> bool:
+def are_same_dir(dir1: Path, dir2: Path, *, ignore: t.Collection[str] = DEFAULT_IGNORES) -> bool:
     """
     Compare two directories recursively.
     """

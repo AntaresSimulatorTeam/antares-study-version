@@ -1,9 +1,13 @@
 import dataclasses
 import datetime
+import typing as t
 from pathlib import Path
 
 from antares.study.version.show_app import ShowApp
 from antares.study.version.upgrade_app import scenarios
+
+if t.TYPE_CHECKING:
+    from antares.study.version import StudyVersion
 
 STUDY_ANTARES_FILE_0600 = """\
 [antares]
@@ -31,7 +35,7 @@ class TestShowApp:
     def test_available_upgrades(self, study_dir: Path) -> None:
         app = ShowApp(study_dir)
         actual = app.available_upgrades
-        expected = []
+        expected: t.List[StudyVersion] = []
         assert actual == expected
 
         # patch version
