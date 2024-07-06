@@ -1,6 +1,6 @@
 from antares.study.version.ini_reader import IniReader
 from antares.study.version.upgrade_app.upgrader_0804 import UpgradeTo0804
-from conftest import StudyAssets
+from tests.conftest import StudyAssets
 
 
 def test_nominal_case(study_assets: StudyAssets):

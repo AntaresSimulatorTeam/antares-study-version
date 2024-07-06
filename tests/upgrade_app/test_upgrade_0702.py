@@ -1,5 +1,5 @@
 from antares.study.version.upgrade_app.upgrader_0702 import UpgradeTo0702
-from conftest import StudyAssets
+from tests.conftest import StudyAssets
 from helpers import are_same_dir
 
 

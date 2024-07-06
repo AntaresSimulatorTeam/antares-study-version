@@ -1,6 +1,6 @@
 from antares.study.version.ini_reader import IniReader
 from antares.study.version.upgrade_app.upgrader_0803 import UpgradeTo0803
-from conftest import StudyAssets
+from tests.conftest import StudyAssets
 from helpers import are_same_dir
 
 

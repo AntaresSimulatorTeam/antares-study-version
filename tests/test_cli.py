@@ -14,7 +14,7 @@ from antares.study.version.__about__ import __date__, __version__
 from antares.study.version.cli import cli
 from antares.study.version.create_app import TEMPLATES_BY_VERSIONS
 from antares.study.version.ini_reader import IniReader
-from conftest import StudyAssets
+from tests.conftest import StudyAssets
 from helpers import are_same_dir
 
 

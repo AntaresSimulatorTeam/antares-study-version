@@ -1,6 +1,6 @@
 from antares.study.version.ini_reader import IniReader
 from antares.study.version.upgrade_app.upgrader_0805 import UpgradeTo0805
-from conftest import StudyAssets
+from tests.conftest import StudyAssets
 
 
 # noinspection SpellCheckingInspection
