@@ -73,7 +73,7 @@ class TestCli:
         assert result.exit_code == 0
 
         show_str = result.output.strip()
-        assert "Available versions: 6.1, 7.0, 7.1, 7.2, 8.0" in show_str
+        assert "Available versions: 7.0, 7.1, 7.2, 8.0" in show_str
 
     def test_upgrade__nominal_case(self, study_assets: StudyAssets) -> None:
         runner = CliRunner()
