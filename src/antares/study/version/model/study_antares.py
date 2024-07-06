@@ -109,7 +109,7 @@ class StudyAntares:
             return value
         if isinstance(value, str):
             value = float(value)
-        return datetime.datetime.fromtimestamp(value)
+        return datetime.datetime.utcfromtimestamp(value)
 
     _validate_created_date = _validate_date
     _validate_last_save_date = _validate_date

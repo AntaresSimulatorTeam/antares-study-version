@@ -22,8 +22,8 @@ class TestShowApp:
         expected = {
             "author": "John Doe",
             "caption": "Thermal fleet optimization",
-            "created_date": datetime.datetime(2009, 7, 2, 10, 42, 15),
-            "last_save_date": datetime.datetime(2023, 6, 7, 11, 1, 23),
+            "created_date": datetime.datetime(2009, 7, 2, 8, 42, 15),
+            "last_save_date": datetime.datetime(2023, 6, 7, 9, 1, 23),
             "version": {"major": 9, "minor": 1, "patch": 0},
         }
         assert dataclasses.asdict(actual) == expected
