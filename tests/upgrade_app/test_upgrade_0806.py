@@ -1,6 +1,6 @@
 from antares.study.version.upgrade_app.upgrader_0806 import UpgradeTo0806
 from tests.conftest import StudyAssets
-from helpers import are_same_dir
+from tests.helpers import are_same_dir
 
 
 def test_nominal_case(study_assets: StudyAssets):

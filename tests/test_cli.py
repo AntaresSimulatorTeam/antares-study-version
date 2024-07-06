@@ -15,7 +15,7 @@ from antares.study.version.cli import cli
 from antares.study.version.create_app import TEMPLATES_BY_VERSIONS
 from antares.study.version.ini_reader import IniReader
 from tests.conftest import StudyAssets
-from helpers import are_same_dir
+from tests.helpers import are_same_dir
 
 
 class TestCli:
