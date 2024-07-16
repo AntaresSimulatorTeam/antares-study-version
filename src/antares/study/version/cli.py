@@ -6,6 +6,7 @@ This module defines the following CLI commands:
 - antares-study-version show: display the details of a study in human-readable format (name, version, creation date, etc.)
 - antares-study-version create: create a new study.
 """
+
 from pathlib import Path
 
 import click
