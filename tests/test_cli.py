@@ -29,7 +29,7 @@ class TestCli:
 
     def test_cli__show(self, study_dir: Path) -> None:
         runner = CliRunner()
-        result = runner.invoke(cli, ["show", str(study_dir)])
+        result = runner.invoke(t.cast(click.BaseCommand, cli), ["show", str(study_dir)])
         assert result.exit_code == 0
         show_str = result.output.strip()
         assert "Caption: Thermal fleet optimization" in show_str
@@ -45,7 +45,7 @@ class TestCli:
         study_dir = tmp_path / "My Study"
         runner = CliRunner()
         args = ["create", str(study_dir), f"--version={study_version:2d}", "--author=Jane Doe", "--caption=New Study"]
-        result = runner.invoke(cli, args)
+        result = runner.invoke(t.cast(click.BaseCommand, cli), args)
         assert result.exit_code == 0, result.output
 
         study_antares_file = study_dir / "study.antares"
@@ -69,7 +69,7 @@ class TestCli:
     def test_cli__create__versions(self) -> None:
         runner = CliRunner()
         args = ["create", "--versions"]
-        result = runner.invoke(cli, args)
+        result = runner.invoke(t.cast(click.BaseCommand, cli), args)
         assert result.exit_code == 0
 
         show_str = result.output.strip()
@@ -78,7 +78,9 @@ class TestCli:
     def test_upgrade__nominal_case(self, study_assets: StudyAssets) -> None:
         runner = CliRunner()
         target_version = "8.8"
-        result = runner.invoke(cli, ["upgrade", str(study_assets.study_dir), f"--version={target_version}"])
+        result = runner.invoke(
+            t.cast(click.BaseCommand, cli), ["upgrade", str(study_assets.study_dir), f"--version={target_version}"]
+        )
         assert result.exit_code == 0
 
         # compare the content of the input directory

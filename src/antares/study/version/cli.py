@@ -22,7 +22,7 @@ INTERRUPTED_BY_THE_USER = "Operation interrupted by the user."
 
 
 @click.group(context_settings={"max_content_width": 120})
-@click.version_option(package_name="antares-study-version", message=f"v{__version__} ({__date__})")
+@click.version_option(__version__, message=f"v{__version__} ({__date__})")
 def cli() -> None:
     """
     Main entrypoint for the CLI application.
