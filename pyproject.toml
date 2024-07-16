@@ -102,6 +102,7 @@ gh-deploy = "mkdocs gh-deploy -f mkdocs.yml {args}"
 
 [tool.mypy]
 files = ["src/"]
+ignore_missing_imports = true
 
 [tool.coverage.run]
 source_pkgs = ["antares.study.version", "tests"]

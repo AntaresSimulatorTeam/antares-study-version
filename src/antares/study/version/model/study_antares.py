@@ -146,7 +146,7 @@ class StudyAntares:
         section = parser["antares"]
         return cls(
             caption=section["caption"],
-            version=section["version"],  # type: ignore
+            version=StudyVersion.parse(section["version"]),
             created_date=section["created"],  # type: ignore
             last_save_date=section["lastsave"],  # type: ignore
             author=section["author"],

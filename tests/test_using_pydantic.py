@@ -4,7 +4,7 @@ import typing as t
 import uuid
 from unittest import mock
 
-import freezegun  # type: ignore
+import freezegun
 from pydantic import BaseModel, Field, validator
 
 from antares.study.version import StudyVersion
