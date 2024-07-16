@@ -101,8 +101,7 @@ gh-deploy = "mkdocs gh-deploy -f mkdocs.yml {args}"
 
 
 [tool.mypy]
-mypy_path = 'src, tests'
-
+files = ["src/"]
 
 [tool.coverage.run]
 source_pkgs = ["antares.study.version", "tests"]
@@ -122,19 +121,6 @@ exclude_lines = [
     "if __name__ == .__main__.:",
     "if TYPE_CHECKING:",
 ]
-
-
-[tool.black]
-target-version = ["py38"]
-line-length = 120
-
-
-[tool.isort]
-profile = "black"
-line_length = 120
-src_paths = ["src", "tests"]
-skip_gitignore = true
-
 
 [tool.ruff]
 # Exclude a variety of commonly ignored directories.
