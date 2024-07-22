@@ -41,15 +41,14 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements-dev.txt
-
-      # Adapt the following code
       - name: Test with pytest
         run: |
-          pytest --cov antarest --cov-report xml
+          pytest --cov tests --cov-report xml
       - name: Fix code coverage paths
         if: matrix.os == 'ubuntu-20.04'
+        # Not sure what the `sed` is supposed to do
         run: |
-          sed -i 's/\/home\/runner\/work\/AntaREST\/AntaREST/\/github\/workspace/g' coverage.xml
+          sed -i 's/\/home\/runner\/work\/antares-study-version\/antares-study-version/\/github\/workspace/g' coverage.xml
       - name: Archive code coverage results
         if: matrix.os == 'ubuntu-20.04'
         uses: actions/upload-artifact@v4
