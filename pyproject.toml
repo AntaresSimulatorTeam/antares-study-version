@@ -21,8 +21,6 @@ classifiers = [
     "Programming Language :: Python :: Implementation :: PyPy",
 ]
 
-dependencies = ["click", "pandas"]
-
 
 [project.urls]
 Documentation = "https://github.com/AntaresSimulatorTeam/antares-study-version#readme"
