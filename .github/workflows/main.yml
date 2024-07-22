@@ -51,7 +51,7 @@ jobs:
         run: |
           sed -i 's/\/home\/runner\/work\/antares-study-version\/antares-study-version/\/github\/workspace/g' coverage.xml
       - name: Archive code coverage results
-        if: matrix.os == 'ubuntu-20.04' and matrix.python-version == "3.8"
+        if: matrix.os == 'ubuntu-20.04' && matrix.python-version == "3.8"
         uses: actions/upload-artifact@v4
         with:
           name: python-code-coverage-report
