@@ -15,7 +15,7 @@ from antares.study.version.upgrade_app import filter_out_child_files
             ["document.txt"],
         ),
         (
-            ["input", str(Path("input").joinpath("other")), str(Path("input") / "other"/ "other")],
+            ["input", str(Path("input").joinpath("other")), str(Path("input") / "other" / "other")],
             ["input"],
         ),
         (
