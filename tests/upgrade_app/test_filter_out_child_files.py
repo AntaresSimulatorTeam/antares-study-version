@@ -1,4 +1,5 @@
 import typing as t
+from pathlib import Path
 
 import pytest
 
@@ -14,16 +15,16 @@ from antares.study.version.upgrade_app import filter_out_child_files
             ["document.txt"],
         ),
         (
-            ["input", "input/other", "input/other/other"],
+            ["input", str(Path("input").joinpath("other")), str(Path("input") / "other" / "other")],
             ["input"],
         ),
         (
-            ["input/other1.txt", "input/other2.txt"],
-            ["input/other1.txt", "input/other2.txt"],
+            [str(Path("input") / "other1.txt"), str(Path("input") / "other2.txt")],
+            [str(Path("input") / "other1.txt"), str(Path("input") / "other2.txt")],
         ),
         (
-            ["input/other1.txt", "input/other2.txt", "other3.txt"],
-            ["input/other1.txt", "input/other2.txt", "other3.txt"],
+            [str(Path("input") / "other1.txt"), str(Path("input") / "other2.txt"), str(Path("input") / "other3.txt")],
+            [str(Path("input") / "other1.txt"), str(Path("input") / "other2.txt"), str(Path("input") / "other3.txt")],
         ),
     ],
 )

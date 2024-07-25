@@ -30,7 +30,7 @@ class UpgradeMethod:
         self.new = StudyVersion.parse(self.new)
 
     def can_upgrade(self, version: StudyVersion) -> bool:
-        return self.old <= version < self.new  # type: ignore
+        return self.old <= version < self.new
 
     @classmethod
     def upgrade(cls, study_dir: Path) -> None:

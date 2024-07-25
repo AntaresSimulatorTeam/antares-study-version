@@ -75,6 +75,9 @@ class _TripletVersion:
         else:
             return NotImplemented
 
+    def __le__(self, other):
+        return self.__lt__(other) or self.__eq__(other)
+
     # Format method
 
     def __format__(self, format_spec: str) -> str:
