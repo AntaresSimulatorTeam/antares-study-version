@@ -57,15 +57,15 @@ pip install -r requirements-doc.txt
 ➢ To generate the documentation with [mkdocs](https://www.mkdocs.org/), run:
 
 ```shell
-python -m mkdocs build --clean --site-dir dirOfYourChoice --config-file mkdocs.yml
+mkdocs build -f mkdocs.yml
 ```
 
-This command will generate the documentation inside the directory `dirOfYourChoice` you registered.
+This command will delete the existing documentation folder and regenerate it inside the directory `site`.
 
 ➢ To serve the documentation locally, run:
 
 ```shell
-hatch run docs:serve
+mkdocs serve -f mkdocs.yml
 ```
 
 This command will start a local web server to serve the documentation
