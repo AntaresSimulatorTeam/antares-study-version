@@ -7,8 +7,11 @@ This module defines the following CLI commands:
 - antares-study-version create: create a new study.
 """
 
+from pathlib import Path
+
 import click
 
+from antares.study.version import StudyVersion
 from antares.study.version.__about__ import __date__, __version__
 from antares.study.version.create_app import CreateApp, available_versions
 from antares.study.version.exceptions import ApplicationError
@@ -38,7 +41,7 @@ def show(study_dir: str) -> None:
     STUDY_DIR: The directory containing the study.
     """
     try:
-        app = ShowApp(study_dir)  # type: ignore
+        app = ShowApp(Path(study_dir))
     except (ValueError, FileNotFoundError) as e:
         click.echo(f"Error: {e}", err=True)
         raise click.Abort()
@@ -102,7 +105,7 @@ def create(study_dir: str, caption: str, version: str, author: str) -> None:
     STUDY_DIR: The directory where the study will be created.
     """
     try:
-        app = CreateApp(study_dir, caption=caption, version=version, author=author)  # type: ignore
+        app = CreateApp(Path(study_dir), caption=caption, version=StudyVersion.parse(version), author=author)
     except (ValueError, FileExistsError) as e:
         click.echo(f"Error: {e}", err=True)
         raise click.Abort()

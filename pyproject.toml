@@ -50,10 +50,10 @@ packages = ["src/antares"]
 
 [tool.hatch.envs.default]
 dependencies = [
-    "coverage[toml]>=6.5",
-    "pytest<8",
-    "pydantic<2",
-    "pytest-freezer<0.5",
+    "coverage[toml]>=7.6.0",
+    "pytest>=8.2.2",
+    "pydantic>=2.8.2",
+    "freezegun~=1.5.1"
 ]
 
 
@@ -77,10 +77,10 @@ python = ["3.8", "3.9", "3.10", "3.11", "3.12"]
 
 [tool.hatch.envs.types]
 dependencies = [
-    "pytest<8",
-    "pydantic<2",
-    "pytest-freezer<0.5",
-    "mypy>=1.0.0",
+    "pytest>=8.2.2",
+    "pydantic>=2.8.2",
+    "mypy>=1.10.1",
+    "freezegun~=1.5.1"
 ]
 
 

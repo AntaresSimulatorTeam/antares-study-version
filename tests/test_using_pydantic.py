@@ -4,8 +4,8 @@ import typing as t
 import uuid
 from unittest import mock
 
-import freezegun  # type: ignore
-from pydantic import BaseModel, Field, validator
+import freezegun
+from pydantic import BaseModel, Field, field_validator
 
 from antares.study.version import StudyVersion
 
@@ -16,7 +16,7 @@ class StudyDTO(BaseModel):
     version: StudyVersion
     created: datetime.datetime = Field(default_factory=lambda: datetime.datetime.now(tz=datetime.timezone.utc))
 
-    @validator("version", pre=True)
+    @field_validator("version", mode="before")
     def _validate_version(cls, v: t.Any) -> StudyVersion:
         return StudyVersion.parse(v)
 
@@ -43,11 +43,11 @@ class TestPydanticStudyVersion:
     def test_to_json(self) -> None:
         with mock.patch("uuid.uuid4", return_value=uuid.UUID("4930a577-63d2-4ea9-b0b9-581110d97475")):
             study = StudyDTO(name="foo", version=StudyVersion(4, 5))
-        result = study.json()
+        result = study.model_dump_json()
         assert isinstance(result, str)
         # Compare dicts, since the order of the keys is not guaranteed
         assert json.loads(result) == {
-            "created": "2024-12-31T12:30:00+00:00",
+            "created": "2024-12-31T12:30:00Z",
             "id": "4930a577-63d2-4ea9-b0b9-581110d97475",
             "name": "foo",
             "version": {"major": 4, "minor": 5, "patch": 0},

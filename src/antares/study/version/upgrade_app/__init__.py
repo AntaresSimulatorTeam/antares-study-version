@@ -73,7 +73,7 @@ class UpgradeApp:
         try:
             return StudyAntares.from_ini_file(self.study_dir)
         except ValidationError as e:
-            raise ApplicationError(str(e)) from e
+            raise ApplicationError(e.args[0]) from e
 
     @property
     def upgrade_methods(self) -> t.List[UpgradeMethod]:
@@ -83,7 +83,7 @@ class UpgradeApp:
         try:
             return scenarios[start:end]  # type: ignore
         except KeyError as e:
-            raise ApplicationError(str(e)) from e
+            raise ApplicationError(e.args[0]) from e
 
     @property
     def should_denormalize(self) -> bool:

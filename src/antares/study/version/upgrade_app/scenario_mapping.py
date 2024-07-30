@@ -99,7 +99,7 @@ class ScenarioMapping(collections.abc.Mapping):
         # Then, find the next upgrade methods until the end version
         curr = meth.new
         for meth in iter_methods:
-            if meth.can_upgrade(curr) and (end is None or meth.new <= end):  # type: ignore
+            if meth.can_upgrade(curr) and (end is None or meth.new <= end):
                 yield meth
                 curr = meth.new
             else:

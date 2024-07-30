@@ -94,10 +94,7 @@ class StudyAntares:
 
     @classmethod
     def _validate_caption(cls, value: t.Any) -> str:
-        value = str(value).strip()
-        if value:
-            return value
-        raise ValueError("Caption cannot be empty")
+        return str(value).strip()
 
     @classmethod
     def _validate_version(cls, value: t.Any) -> StudyVersion:
@@ -108,7 +105,11 @@ class StudyAntares:
         if isinstance(value, datetime.datetime):
             return value
         if isinstance(value, str):
-            value = float(value)
+            try:
+                value = float(value)
+            except ValueError:
+                return datetime.datetime.utcnow()
+
         return datetime.datetime.utcfromtimestamp(value)
 
     _validate_created_date = _validate_date
@@ -146,7 +147,7 @@ class StudyAntares:
         section = parser["antares"]
         return cls(
             caption=section["caption"],
-            version=section["version"],  # type: ignore
+            version=StudyVersion.parse(section["version"]),
             created_date=section["created"],  # type: ignore
             last_save_date=section["lastsave"],  # type: ignore
             author=section["author"],
