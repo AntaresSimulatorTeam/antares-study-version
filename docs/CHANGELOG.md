@@ -1,6 +1,14 @@
 Changelog
 =========
 
+v1.0.3 (2024-07-31)
+-------------------
+
+- Minor code improvements
+- Allow upgrade with empty fields inside `study.antares` file.
+- Add `py.typed` file to avoid mypy issue in projects importing the code
+
+
 v1.0.0 (2024-07-06)
 -------------------
 
