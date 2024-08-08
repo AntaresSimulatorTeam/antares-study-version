@@ -166,9 +166,11 @@ class StudyAntares:
 
         section_dict = self.to_dict()
 
-        if self.version <= DOTTED_VERSION:  # type: ignore
+        if self.version < DOTTED_VERSION:  # type: ignore
             # Old versions of Antares Studies used a different format for the version number
             section_dict["version"] = f"{self.version:ddd}"
+        else:
+            section_dict["version"] = f"{self.version.major}.{self.version.minor}"
 
         section_dict["created"] = section_dict.pop("created_date")
         section_dict["lastsave"] = section_dict.pop("last_save_date")

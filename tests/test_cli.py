@@ -52,9 +52,14 @@ class TestCli:
         parser = configparser.ConfigParser()
         parser.read(study_antares_file, encoding="utf-8")
         section_dict = dict(parser["antares"])
+        if study_version < 900:
+            expected_version = f"{study_version:ddd}"
+        else:
+            expected_version = f"{study_version.major}.{study_version.minor}"
+
         expected = {
             "caption": "New Study",
-            "version": f"{study_version:ddd}",
+            "version": expected_version,
             "created": ANY,
             "lastsave": ANY,
             "author": "Jane Doe",
