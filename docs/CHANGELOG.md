@@ -1,6 +1,14 @@
 Changelog
 =========
 
+v1.0.4 (2024-09-24)
+-------------------
+
+- Add missing operators inside TripletVersion class
+- Explicitly export StudyVersion and SolverVersion to avoid mypy issues
+- Implement upgrade for StudyVersion 9.0
+
+
 v1.0.3 (2024-07-31)
 -------------------
 
