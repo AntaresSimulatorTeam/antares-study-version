@@ -78,6 +78,17 @@ class _TripletVersion:
     def __le__(self, other):
         return self.__lt__(other) or self.__eq__(other)
 
+    def __gt__(self, other):
+        if isinstance(other, _TripletVersion):
+            return (self.major, self.minor, self.patch).__gt__((other.major, other.minor, other.patch))
+        elif isinstance(other, (int, str, t.Sequence, t.Mapping)):
+            return self.__gt__(self.parse(other))
+        else:
+            return NotImplemented
+
+    def __ge__(self, other):
+        return self.__gt__(other) or self.__eq__(other)
+
     # Format method
 
     def __format__(self, format_spec: str) -> str:
