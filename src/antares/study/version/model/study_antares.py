@@ -168,7 +168,7 @@ class StudyAntares:
 
         if self.version < DOTTED_VERSION:  # type: ignore
             # Old versions of Antares Studies used a different format for the version number
-            section_dict["version"] = f"{self.version:}"
+            section_dict["version"] = f"{self.version:ddd}"
         else:
             section_dict["version"] = f"{self.version.major}.{self.version.minor}"
 

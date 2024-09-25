@@ -15,7 +15,7 @@ Using the `antares-study-version` module is straightforward:
 from antares.study.version import StudyVersion
 
 version = StudyVersion(8, 7, 2)  # patch component is not used
-print(version)  # 870
+print(version)  # 8.7
 ```
 
 You can also create a version object from a dotted string:
@@ -24,7 +24,7 @@ You can also create a version object from a dotted string:
 from antares.study.version import StudyVersion
 
 version = StudyVersion.parse("8.7")
-print(version)  # 870
+print(version)  # 8.7
 ```
 
 You can create a version object from a compact string:
@@ -33,7 +33,7 @@ You can create a version object from a compact string:
 from antares.study.version import StudyVersion
 
 version = StudyVersion.parse("870")
-print(version)  # 870
+print(version)  # 8.7
 ```
 
 You can create a version object from an integer:
@@ -42,7 +42,7 @@ You can create a version object from an integer:
 from antares.study.version import StudyVersion
 
 version = StudyVersion.parse(870)
-print(version)  # 870
+print(version)  # 8.7
 ```
 
 You can compare versions:
@@ -61,10 +61,10 @@ You can convert a version to string using format specifiers:
 from antares.study.version import StudyVersion
 
 version = StudyVersion(8, 7)
-print(f"{version}d.d.d")  # 8.7
+print(version)  # 8.7
 print(f"{version:02d}")  # 08.07
 print(f"{version:03d}")  # 08.07.00
-print(version)  # 870
+print(f"{version:ddd}")  # 870
 ```
 
 You can convert a version to an integer:
@@ -84,7 +84,7 @@ Of course, the same operations can be done with `SolverVersion` objects, but wit
 from antares.study.version import SolverVersion
 
 version = SolverVersion(8, 7, 2)
-print(version)  # 872
+print(version)  # 8.7.2
 ```
 
 Objects of the `StudyVersion` and `SolverVersion` classes can be compared to each other:

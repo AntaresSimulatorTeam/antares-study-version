@@ -1,6 +1,12 @@
 Changelog
 =========
 
+v1.0.6 (2024-09-25)
+-------------------
+
+- revert change in release v1.0.5 as it was a mistake
+- v8.6 update puts field `enable-first-step` at False instead of True
+
 v1.0.5 (2024-09-25)
 -------------------
 

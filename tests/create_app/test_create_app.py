@@ -18,7 +18,7 @@ class TestCreateApp:
         study_dir = tmp_path.joinpath("my-new-study")
         study_version = StudyVersion.parse("2.8")
         app = CreateApp(study_dir=study_dir, caption="My New App", version=study_version, author="Robert Smith")
-        with pytest.raises(ApplicationError, match=re.escape(str(study_version))):
+        with pytest.raises(ApplicationError, match=re.escape(f"{study_version:2d}")):
             app()
 
     @pytest.mark.parametrize("study_version", AVAILABLE_VERSIONS)

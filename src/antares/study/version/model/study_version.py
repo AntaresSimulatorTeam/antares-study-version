@@ -32,7 +32,12 @@ class _TripletVersion:
     # Conversion methods
 
     def __str__(self) -> str:
-        return f"{int(self):03d}"
+        if self.patch:
+            return f"{self.major}.{self.minor}.{self.patch}"
+        elif self.minor:
+            return f"{self.major}.{self.minor}"
+        else:
+            return f"{self.major}"
 
     def __int__(self) -> int:
         return self.major * 100 + self.minor * 10 + self.patch
@@ -90,12 +95,12 @@ class _TripletVersion:
         """
         Format the version number "X.Y.Z" according to the format specifier:
 
-        - "" => "XYZ"
+        - "" => "X.Y.Z" or "X.Y" if patch is 0, or "X" if minor is 0.
         - "1d" => "X",
         - "2d" => "X.Y",
         - "01d" => "0X",
         - "02d" => "0X.0Y"
-        - "d.d.d" => "X.Y.Z" or "X.Y" if patch is 0, or "X" if minor is 0.
+        - "d.d.d" => "XYZ"
 
         :param format_spec: format specifier.
 
@@ -116,13 +121,8 @@ class _TripletVersion:
             return f"{major:02d}.{minor:02d}"
         elif format_spec == "03d":
             return f"{major:02d}.{minor:02d}.{patch:02d}"
-        elif format_spec == "d.d.d":
-            if self.patch:
-                return f"{self.major}.{self.minor}.{self.patch}"
-            elif self.minor:
-                return f"{self.major}.{self.minor}"
-            else:
-                return f"{self.major}"
+        elif format_spec == "ddd":
+            return f"{int(self):03d}"
         else:
             raise ValueError(f"Invalid format specifier: '{format_spec}'")
 

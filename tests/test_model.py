@@ -34,7 +34,7 @@ class TestSolverVersion:
         version = SolverVersion(4, 5, 6)
         result = version.__str__()
         assert isinstance(result, str)
-        assert result == "456"
+        assert result == "4.5.6"
 
     def test___int__(self) -> None:
         version = SolverVersion(4, 5, 6)
@@ -51,14 +51,14 @@ class TestSolverVersion:
     @pytest.mark.parametrize(
         "format_spec, expected",
         [
-            pytest.param("d.d.d", "4.5.6", id="empty"),
+            pytest.param("", "4.5.6", id="empty"),
             pytest.param("1d", "4", id="format-1d"),
             pytest.param("2d", "4.5", id="format-2d"),
             pytest.param("3d", "4.5.6", id="format-3d"),
             pytest.param("01d", "04", id="format-01d"),
             pytest.param("02d", "04.05", id="format-02d"),
             pytest.param("03d", "04.05.06", id="format-03d"),
-            pytest.param("", "456", id="format-ddd"),
+            pytest.param("ddd", "456", id="format-ddd"),
             pytest.param("X", "", marks=pytest.mark.xfail(raises=ValueError, strict=True)),
         ],
     )
@@ -93,7 +93,7 @@ class TestStudyVersion:
         version = StudyVersion(4, 5)
         result = version.__str__()
         assert isinstance(result, str)
-        assert result == "450"
+        assert result == "4.5"
 
     def test___int__(self) -> None:
         version = StudyVersion(4, 5)
@@ -109,14 +109,14 @@ class TestStudyVersion:
     @pytest.mark.parametrize(
         "format_spec, expected",
         [
-            pytest.param("d.d.d", "4.5", id="empty"),
+            pytest.param("", "4.5", id="empty"),
             pytest.param("1d", "4", id="format-1d"),
             pytest.param("2d", "4.5", id="format-2d"),
             pytest.param("3d", "4.5.0", id="format-3d"),
             pytest.param("01d", "04", id="format-01d"),
             pytest.param("02d", "04.05", id="format-02d"),
             pytest.param("03d", "04.05.00", id="format-03d"),
-            pytest.param("", "450", id="format-ddd"),
+            pytest.param("ddd", "450", id="format-ddd"),
             pytest.param("X", "", marks=pytest.mark.xfail(raises=ValueError, strict=True)),
         ],
     )
@@ -154,7 +154,7 @@ class TestScenario:
 
         # We can write the study version to an INI file
         version = StudyVersion(10, 2)
-        config["antares"]["version"] = version.__format__("d.d.d")
+        config["antares"]["version"] = str(version)
 
         stream.seek(0)
         config.write(stream)
@@ -252,7 +252,7 @@ class TestScenario:
         assert version == StudyVersion(8, 7)
 
         # We can convert a version number to a string
-        assert str(version) == "870"
+        assert str(version) == "8.7"
 
         # We can compare string versions using the standard comparison operators
         assert version == "8.7"
@@ -272,7 +272,7 @@ class TestScenario:
         # We can construct a version number from a string with a single number
         version = StudyVersion.parse("8")
         assert version == StudyVersion(8)
-        assert str(version) == "800"
+        assert str(version) == "8"
 
     # noinspection PyDataclass,PyTypeChecker
     def test_version_triplet(self):

@@ -26,7 +26,7 @@ class UpgradeTo0806(UpgradeMethod):
             study_dir: The study directory.
         """
         data = GeneralData.from_ini_file(study_dir)
-        data["adequacy patch"]["enable-first-step "] = True
+        data["adequacy patch"]["enable-first-step"] = False
         data.to_ini_file(study_dir)
 
         study_dir.joinpath("input", "st-storage", "clusters").mkdir(parents=True, exist_ok=True)

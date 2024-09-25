@@ -1,3 +1,4 @@
+from antares.study.version.ini_reader import IniReader
 from antares.study.version.upgrade_app.upgrader_0806 import UpgradeTo0806
 from tests.conftest import StudyAssets
 from tests.helpers import are_same_dir
@@ -15,3 +16,10 @@ def test_nominal_case(study_assets: StudyAssets):
     actual_input_path = study_assets.study_dir.joinpath("input")
     expected_input_path = study_assets.expected_dir.joinpath("input")
     assert are_same_dir(actual_input_path, expected_input_path)
+
+    # compare generaldata.ini
+    actual_path = study_assets.study_dir.joinpath("settings/generaldata.ini")
+    actual = IniReader().read(actual_path)
+    expected_path = study_assets.expected_dir.joinpath("settings/generaldata.ini")
+    expected = IniReader().read(expected_path)
+    assert actual == expected
