@@ -1,6 +1,12 @@
 Changelog
 =========
 
+v1.0.5 (2024-09-25)
+-------------------
+
+- str(TripletVersion) now returns XYZ instead of X.Y.Z to make serialization work inside AntaresWeb
+
+
 v1.0.4 (2024-09-24)
 -------------------
 

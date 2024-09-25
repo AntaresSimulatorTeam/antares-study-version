@@ -53,7 +53,7 @@ class TestCli:
         parser.read(study_antares_file, encoding="utf-8")
         section_dict = dict(parser["antares"])
         if study_version < 900:
-            expected_version = f"{study_version:ddd}"
+            expected_version = f"{study_version:}"
         else:
             expected_version = f"{study_version.major}.{study_version.minor}"
 
