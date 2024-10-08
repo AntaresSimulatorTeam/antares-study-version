@@ -143,3 +143,11 @@ class StudyVersion(_TripletVersion):
         except ValueError:
             msg = f"Invalid parameters: {(major, minor)!r}: you should use `parse` method instead."
             raise ValueError(msg) from None
+
+
+class SolverMinorVersion(SolverVersion):
+    """
+    Represents a SolverVersion but when we don't want to take the `patch` into account. Used inside antares-launcher.
+    """
+
+    pass

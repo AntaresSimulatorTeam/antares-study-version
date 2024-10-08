@@ -1,6 +1,11 @@
 Changelog
 =========
 
+v1.0.7 (2024-10-08)
+-------------------
+
+- introduce a new class `SolverMinorVersion` for antares-launcher.
+
 v1.0.6 (2024-09-25)
 -------------------
 
