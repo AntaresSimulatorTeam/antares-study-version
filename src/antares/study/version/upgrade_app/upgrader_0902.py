@@ -1,4 +1,3 @@
-import copy
 from itertools import product
 from pathlib import Path
 
@@ -46,31 +45,22 @@ class UpgradeTo0902(UpgradeMethod):
         # Migrates the thematic trimming part
         if "variables selection" in data:
             variables_selection = data["variables selection"]
-            clusters = [
-                "psp_open",
-                "psp_closed",
-                "pondage",
-                "battery",
-                "other1",
-                "other2",
-                "other3",
-                "other4",
-                "other5",
-            ]
+            groups = ["psp_open", "psp_closed", "pondage", "battery", "other1", "other2", "other3", "other4", "other5"]
             outputs = ["_injection", "_withdrawal", "_level"]
-            possible_variables = {f"{group}{output}" for group, output in product(clusters, outputs)}
-            selected_var_section = variables_selection.get("select_var -", None) or variables_selection["select_var +"]
-            copied_section = copy.deepcopy(selected_var_section)
+            possible_variables = {f"{group}{output}" for group, output in product(groups, outputs)}
+            sign = "+" if "select_var +" in variables_selection else "-"
+            selected_var_section = variables_selection[f"select_var {sign}"]
+            copied_list = []
             count = 0
-            for key, var in selected_var_section.values():
-                if var.lower() in possible_variables:
-                    del copied_section[key]
+            for var in selected_var_section:
+                if var.lower() not in possible_variables:
+                    copied_list.append(var)
                     count = 1
             if count == 1:
-                copied_section[len(copied_section)] = "STS by group"
-            for key in ["select_var -", "select_var +"]:
-                if key in variables_selection:
-                    variables_selection[key] = copied_section
+                copied_list.append("STS by group")
+            variables_selection[f"select_var {sign}"] = copied_list
+
+        data.to_ini_file(study_dir)
 
         # =======================
         #  LINKS
@@ -114,14 +104,9 @@ class UpgradeTo0902(UpgradeMethod):
         # =======================
 
         st_storage_dir = study_dir / "input" / "st-storage"
-        if not st_storage_dir.exists():
-            # The folder only exists for studies in v8.6+ that have some short term storage clusters.
-            # For every other case, this upgrader has nothing to do.
-            return
-
         reader = IniReader()
         writer = IniWriter()
-        cluster_files = st_storage_dir.glob("*/list.ini")
+        cluster_files = (st_storage_dir / "clusters").glob("*/list.ini")
         for file_path in cluster_files:
             sections = reader.read(file_path)
             for section in sections.values():
@@ -132,5 +117,7 @@ class UpgradeTo0902(UpgradeMethod):
         series_path = st_storage_dir / "series"
         for area in series_path.iterdir():
             area_dir = st_storage_dir / "series" / area
-            for matrix in matrices_to_create:
-                (area_dir / matrix).touch()
+            for storage in area_dir.iterdir():
+                final_dir = area_dir / storage
+                for matrix in matrices_to_create:
+                    (final_dir / matrix).touch()
