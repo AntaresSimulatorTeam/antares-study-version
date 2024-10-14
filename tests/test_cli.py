@@ -33,7 +33,7 @@ class TestCli:
         assert result.exit_code == 0
         show_str = result.output.strip()
         assert "Caption: Thermal fleet optimization" in show_str
-        assert "Version: v9.1" in show_str
+        assert "Version: v9.2" in show_str
         assert "Created: 2009-07-02 08:42:15" in show_str
         assert "Last Save: 2023-06-07 09:01:23" in show_str
         assert "Author: John Doe" in show_str

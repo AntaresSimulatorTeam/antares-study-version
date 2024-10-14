@@ -23,7 +23,7 @@ class StudyAntares:
 
         [antares]
         caption = Thermal fleet optimization
-        version = 9.1
+        version = 9.2
         created = 1246524135
         lastsave = 1686128483
         author = John Doe
@@ -34,7 +34,7 @@ class StudyAntares:
 
     >>> data = {
     ...     "caption": "Thermal fleet optimization",
-    ...     "version": "9.1",
+    ...     "version": "9.2",
     ...     "created_date": 1246524135,
     ...     "last_save_date": 1686128483,
     ...     "author": "John Doe",
@@ -45,7 +45,7 @@ class StudyAntares:
     >>> study_antares.caption
     'Thermal fleet optimization'
     >>> study_antares.version
-    StudyVersion(major=9, minor=1, patch=0)
+    StudyVersion(major=9, minor=2, patch=0)
     >>> study_antares.created_date
     datetime.datetime(2009, 7, 2, 10, 42, 15)
     >>> study_antares.last_save_date
