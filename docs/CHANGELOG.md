@@ -1,7 +1,7 @@
 Changelog
 =========
 
-v1.0.7 (2024-10-15)
+v1.0.8 (2024-10-15)
 -------------------
 
 - Implement upgrade for StudyVersion 9.2
