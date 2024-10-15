@@ -15,6 +15,18 @@ from .upgrade_method import UpgradeMethod
 
 logger = logging.getLogger(__name__)
 
+UPGRADE_TEMPORARY_DIR_SUFFIX = ".upgrade.tmp"
+UPGRADE_TEMPORARY_DIR_PREFIX = "~"
+
+
+def is_temporary_upgrade_dir(path: Path) -> bool:
+    """Check if a directory is a temporary upgrade directory."""
+    return (
+        path.name.startswith(UPGRADE_TEMPORARY_DIR_PREFIX)
+        and "".join(path.suffixes[-2:]) == UPGRADE_TEMPORARY_DIR_SUFFIX
+        and path.is_dir()
+    )
+
 
 def filter_out_child_files(files: t.Collection[str]) -> t.List[str]:
     """
@@ -91,7 +103,9 @@ class UpgradeApp:
         return any(meth.should_denormalize for meth in self.upgrade_methods)
 
     def __call__(self) -> None:
-        with tempfile.TemporaryDirectory(suffix=".upgrade.tmp", prefix="~", dir=self.study_dir.parent) as path:
+        with tempfile.TemporaryDirectory(
+            suffix=UPGRADE_TEMPORARY_DIR_SUFFIX, prefix=UPGRADE_TEMPORARY_DIR_PREFIX, dir=self.study_dir.parent
+        ) as path:
             tmp_path = Path(path)
 
             # Prepare the upgrade
