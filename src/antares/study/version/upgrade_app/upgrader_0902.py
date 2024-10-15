@@ -2,13 +2,40 @@ from itertools import product
 from pathlib import Path
 
 import numpy as np
+import typing as t
 
 from antares.study.version.ini_reader import IniReader
 from antares.study.version.ini_writer import IniWriter
 from antares.study.version.model.study_version import StudyVersion
+from .exceptions import UnexpectedThematicTrimmingFieldsError
 
 from .upgrade_method import UpgradeMethod
 from ..model.general_data import GENERAL_DATA_PATH, GeneralData
+
+
+def _upgrade_thematic_trimming(data: GeneralData) -> None:
+    def _get_possible_variables() -> t.Set[str]:
+        groups = ["psp_open", "psp_closed", "pondage", "battery", "other1", "other2", "other3", "other4", "other5"]
+        outputs = ["_injection", "_withdrawal", "_level"]
+        return {f"{group}{output}" for group, output in product(groups, outputs)}
+
+    variables_selection = data["variables selection"]
+    possible_variables = _get_possible_variables()
+    d: t.Dict[str, t.Dict[str, t.List[str]]] = {}
+    for sign in ["+", "-"]:
+        select_var = f"select_var {sign}"
+        d[select_var] = {"keep": [], "remove": []}
+        for var in variables_selection.get(select_var, []):
+            key = "remove" if var.lower() in possible_variables else "keep"
+            d[select_var][key].append(var)
+
+    if d["select_var +"]["remove"] and d["select_var -"]["remove"]:
+        raise UnexpectedThematicTrimmingFieldsError(d["select_var +"]["remove"], d["select_var -"]["remove"])
+    for sign in ["+", "-"]:
+        select_var = f"select_var {sign}"
+        if d[select_var]["keep"]:
+            d[select_var]["keep"].append("STS by group")
+            variables_selection[select_var] = d[select_var]["keep"]
 
 
 class UpgradeTo0902(UpgradeMethod):
@@ -20,52 +47,24 @@ class UpgradeTo0902(UpgradeMethod):
     new = StudyVersion(9, 2)
     files = ["input/st-storage", GENERAL_DATA_PATH, "input/links"]
 
-    @classmethod
-    def upgrade(cls, study_dir: Path) -> None:
-        """
-        Upgrades the study to version 9.2.
-
-        Args:
-            study_dir: The study directory.
-        """
-
-        # =======================
-        #  GENERAL DATA
-        # =======================
-
+    @staticmethod
+    def _upgrade_general_data(study_dir: Path) -> None:
         data = GeneralData.from_ini_file(study_dir)
         adq_patch = data["adequacy patch"]
-        del adq_patch["enable-first-step"]
-        del adq_patch["set-to-null-ntc-between-physical-out-for-first-step"]
+        adq_patch.pop("enable-first-step", None)
+        adq_patch.pop("set-to-null-ntc-between-physical-out-for-first-step", None)
         other_preferences = data["other preferences"]
-        del other_preferences["initial-reservoir-levels"]
+        other_preferences.pop("initial-reservoir-levels", None)
         other_preferences["hydro-pmax-format"] = "daily"
         data["general"]["nbtimeserieslinks"] = 1
 
-        # Migrates the thematic trimming part
         if "variables selection" in data:
-            variables_selection = data["variables selection"]
-            groups = ["psp_open", "psp_closed", "pondage", "battery", "other1", "other2", "other3", "other4", "other5"]
-            outputs = ["_injection", "_withdrawal", "_level"]
-            possible_variables = {f"{group}{output}" for group, output in product(groups, outputs)}
-            sign = "+" if "select_var +" in variables_selection else "-"
-            selected_var_section = variables_selection[f"select_var {sign}"]
-            copied_list = []
-            count = 0
-            for var in selected_var_section:
-                if var.lower() not in possible_variables:
-                    copied_list.append(var)
-                    count = 1
-            if count == 1:
-                copied_list.append("STS by group")
-            variables_selection[f"select_var {sign}"] = copied_list
+            _upgrade_thematic_trimming(data)
 
         data.to_ini_file(study_dir)
 
-        # =======================
-        #  LINKS
-        # =======================
-
+    @staticmethod
+    def _upgrade_links(study_dir: Path) -> None:
         links_path = study_dir / "input" / "links"
         default_prepro = np.tile([1, 1, 0, 0, 0, 0], (365, 1))
         default_modulation = np.ones(dtype=int, shape=(8760, 1))
@@ -99,10 +98,8 @@ class UpgradeTo0902(UpgradeMethod):
                 np.savetxt(prepro_path / f"{area_name}_indirect.txt", default_prepro, delimiter="\t", fmt="%.6f")
                 np.savetxt(prepro_path / f"{area_name}_mod.txt", default_modulation, delimiter="\t", fmt="%.6f")
 
-        # =======================
-        #  ST STORAGES
-        # =======================
-
+    @staticmethod
+    def _upgrade_storages(study_dir: Path) -> None:
         st_storage_dir = study_dir / "input" / "st-storage"
         reader = IniReader()
         writer = IniWriter()
@@ -121,3 +118,16 @@ class UpgradeTo0902(UpgradeMethod):
                 final_dir = area_dir / storage
                 for matrix in matrices_to_create:
                     (final_dir / matrix).touch()
+
+    @classmethod
+    def upgrade(cls, study_dir: Path) -> None:
+        """
+        Upgrades the study to version 9.2.
+
+        Args:
+            study_dir: The study directory.
+        """
+
+        cls._upgrade_general_data(study_dir)
+        cls._upgrade_links(study_dir)
+        cls._upgrade_storages(study_dir)

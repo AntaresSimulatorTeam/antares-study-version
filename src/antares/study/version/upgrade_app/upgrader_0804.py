@@ -32,5 +32,5 @@ class UpgradeTo0804(UpgradeMethod):
         data = GeneralData.from_ini_file(study_dir)
         actual_capacities = data["optimization"]["transmission-capacities"]
         data["optimization"]["transmission-capacities"] = _TRANSMISSION_CAPACITIES[actual_capacities]
-        del data["optimization"]["include-split-exported-mps"]
+        data["optimization"].pop("include-split-exported-mps", None)
         data.to_ini_file(study_dir)
