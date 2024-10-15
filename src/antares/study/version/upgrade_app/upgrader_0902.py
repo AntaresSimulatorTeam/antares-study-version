@@ -16,8 +16,8 @@ from ..model.general_data import GENERAL_DATA_PATH, GeneralData
 def _upgrade_thematic_trimming(data: GeneralData) -> None:
     def _get_possible_variables() -> t.Set[str]:
         groups = ["psp_open", "psp_closed", "pondage", "battery", "other1", "other2", "other3", "other4", "other5"]
-        outputs = ["_injection", "_withdrawal", "_level"]
-        return {f"{group}{output}" for group, output in product(groups, outputs)}
+        outputs = ["injection", "withdrawal", "level"]
+        return {f"{group}_{output}" for group, output in product(groups, outputs)}
 
     variables_selection = data["variables selection"]
     possible_variables = _get_possible_variables()
@@ -25,6 +25,12 @@ def _upgrade_thematic_trimming(data: GeneralData) -> None:
     for sign in ["+", "-"]:
         select_var = f"select_var {sign}"
         d[select_var] = {"keep": [], "remove": []}
+        # The 'remove' list gathers all fields that should not be kept after the upgrade.
+        # It applies to any field inside the 27 listed by the `_get_possible_variables` method.
+        # The 'keep' list gathers all fields that have nothing to do with the upgrade and therefore should be kept.
+        # We check these fields for enabled and disabled variables (symbolized by +/-) as we can have both.
+        # In the end, we remove all legacy fields and replace them by one field only: 'STS by group'.
+        # For more information, see https://antares-simulator.readthedocs.io/en/latest/user-guide/04-migration-guides/#short-term-storage-groups
         for var in variables_selection.get(select_var, []):
             key = "remove" if var.lower() in possible_variables else "keep"
             d[select_var][key].append(var)
