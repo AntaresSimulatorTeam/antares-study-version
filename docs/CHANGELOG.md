@@ -1,6 +1,12 @@
 Changelog
 =========
 
+v1.0.9 (2024-10-16)
+-------------------
+
+- add a function identifying upgrade temporary directories for AntaresWeb
+
+
 v1.0.8 (2024-10-15)
 -------------------
 
