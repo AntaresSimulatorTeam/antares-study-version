@@ -4,6 +4,8 @@ from antares.study.version.model.general_data import GENERAL_DATA_PATH, GeneralD
 from antares.study.version.model.study_version import StudyVersion
 
 from .upgrade_method import UpgradeMethod
+from ..ini_reader import IniReader
+from ..ini_writer import IniWriter
 
 
 class UpgradeTo0801(UpgradeMethod):
@@ -28,3 +30,13 @@ class UpgradeTo0801(UpgradeMethod):
         data.to_ini_file(study_dir)
         study_dir.joinpath("input", "renewables", "clusters").mkdir(parents=True, exist_ok=True)
         study_dir.joinpath("input", "renewables", "series").mkdir(parents=True, exist_ok=True)
+
+        # Migrate thermal group from Other to Other 1
+        thermal_cluster_dir = study_dir / "input" / "thermal" / "clusters"
+        for area in thermal_cluster_dir.iterdir():
+            ini_path = thermal_cluster_dir / area / "list.ini"
+            sections = IniReader().read(ini_path)
+            for section in sections.values():
+                if section["group"].lower() == "Other".lower():
+                    section["group"] = "other 1"
+            IniWriter().write(sections, ini_path)

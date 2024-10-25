@@ -19,7 +19,9 @@ def test_nominal_case(study_assets: StudyAssets):
     expected = IniReader().read(expected_path)
     assert actual == expected
 
-    # compare folders (because the upgrade should create empty "renewables" folder)
+    # compare input folders:
+    # 1- The upgrade should create empty "renewables" folder
+    # 2- The upgrade should rename old thermal groups
     assert are_same_dir(
         study_assets.study_dir.joinpath("input"),
         study_assets.expected_dir.joinpath("input"),
