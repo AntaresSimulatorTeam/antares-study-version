@@ -4,8 +4,8 @@ from antares.study.version.model.general_data import GENERAL_DATA_PATH, GeneralD
 from antares.study.version.model.study_version import StudyVersion
 
 from .upgrade_method import UpgradeMethod
-from ..ini_reader import IniReader
-from ..ini_writer import IniWriter
+from antares.study.version.ini_writer import IniWriter
+from antares.study.version.ini_reader import IniReader
 
 
 class UpgradeTo0801(UpgradeMethod):
