@@ -1,6 +1,11 @@
 Changelog
 =========
 
+v1.0.10 (2024-10-25)
+-------------------
+
+- migrate cluster group from "other" to "other 1" inside v8.1 upgrader
+
 v1.0.9 (2024-10-16)
 -------------------
 
