@@ -22,7 +22,7 @@ INTERRUPTED_BY_THE_USER = "Operation interrupted by the user."
 
 
 @click.group(context_settings={"max_content_width": 120})
-@click.version_option(package_name="antares-study-version", message=f"v{__version__} ({__date__})")
+@click.version_option(__version__, message=f"v{__version__} ({__date__})")
 def cli() -> None:
     """
     Main entrypoint for the CLI application.
@@ -140,7 +140,7 @@ def upgrade(study_dir: str, version: str) -> None:
     STUDY_DIR: The directory containing the study to upgrade.
     """
     try:
-        app = UpgradeApp(study_dir, version=version)  # type: ignore
+        app = UpgradeApp(Path(study_dir), version=StudyVersion.parse(version))
     except (ValueError, FileNotFoundError) as e:
         click.echo(f"Error: {e}", err=True)
         raise click.Abort()

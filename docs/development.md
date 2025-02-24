@@ -1,123 +1,72 @@
-# Development
-
-This projet uses [Hach](https://hatch.pypa.io/latest/) to manage the development environment.
-
 ## Project setup
 
-➢ To install the [development environment](https://hatch.pypa.io/latest/environment/), run:
+➢ To install your development environment inside a [virtual environment](https://docs.python.org/3/library/venv.html), run:
 
 ```shell
-hatch env create
+python -m venv venv
+source venv/bin/activate
 ```
 
-> See [hatch env create](https://hatch.pypa.io/latest/cli/reference/#hatch-env-create) documentation
-
-This command will create a virtual environment and install the development dependencies.
-
-> NOTE: `hatch` creates a virtual environment in the `~/.local/share/hatch/env/virtual/antares-study-version` directory.
-
-➢ To activate the virtual environment, run:
-
+➢ To install the project dependencies, then run:
 ```shell
-hatch shell
+python -m pip install --upgrade pip
+pip install -r requirements.txt
 ```
 
-> See [hatch shell](https://hatch.pypa.io/latest/cli/reference/#hatch-shell) documentation
-
-This command will spawn a new shell with the virtual environment activated. Use Ctrl+D to exit the shell.
-
-> NOTE: this command will display the full path to the virtual environment.
-> You can use it to configure PyCharm or Visual Studio Code to use this virtual environment.
+or `requirements-dev.txt` if you want to run the tests or check the lint.
 
 ## Development tasks
 
 ➢ To format and lint the source code with [ruff](https://docs.astral.sh/ruff/), run:
 
 ```shell
-hatch fmt
+ruff check src/ tests/ --fix && ruff format src/ tests/
 ```
 
-> See [hatch fmt](https://hatch.pypa.io/latest/cli/reference/#hatch-fmt) documentation
-
-➢ To run the tests on the current Python version, run:
+➢ To run the tests, run:
 
 ```shell
-hatch run test
+pytest
 ```
 
-> See [hatch run](https://hatch.pypa.io/latest/cli/reference/#hatch-run) documentation
-
-➢ To run the tests on Python 3.12, for example, run:
-
-```shell
-hatch run all.py3.12:test
-```
+at the root of the projet.
 
 ➢ To generate the test coverage report, run:
 
 ```shell
-hatch run cov
+ pytest --cov --cov-report xml
 ```
+at the root of the project.
 
-This command will run the unit tests and generate a coverage report in the `htmlcov` directory.
+This command will run the unit tests and generate a coverage report inside the `coverage.xml` file at the root of the project.
 
 ➢ To check the typing with [mypy](http://mypy-lang.org/), run:
 
 ```shell
-hatch run types:check
-```
-
-➢ To check the typing on unit tests, run:
-
-```shell
-hatch run types:check-tests
+mypy --install-types --non-interactive
 ```
 
 ## Generating the documentation
 
-➢ To prepare the documentation environment, run:
+➢ First you need to install mkdocs dependencies, so run:
 
 ```shell
-hatch env create docs
+pip install -r requirements-doc.txt
 ```
 
 ➢ To generate the documentation with [mkdocs](https://www.mkdocs.org/), run:
 
 ```shell
-hatch run docs:build
+mkdocs build -f mkdocs.yml
 ```
 
-This command will generate the documentation in the `site` directory.
+This command will delete the existing documentation folder and regenerate it inside the directory `site`.
 
 ➢ To serve the documentation locally, run:
 
 ```shell
-hatch run docs:serve
+mkdocs serve -f mkdocs.yml
 ```
 
 This command will start a local web server to serve the documentation
 at [http://127.0.0.1:8000/](http://127.0.0.1:8000/).
-
-## Building the package
-
-➢ To build the package, run:
-
-```shell
-hatch build
-```
-
-This command will create a `dist` directory with the built package.
-
-➢ To build the package and upload it to [PyPI](https://pypi.org/), run:
-
-```shell
-hatch publish
-```
-
-➢ To clean the project, run:
-
-```shell
-hatch clean
-```
-
-This command will remove the `dist` directory.
