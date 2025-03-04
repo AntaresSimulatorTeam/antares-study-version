@@ -4,7 +4,7 @@ from tests.conftest import StudyAssets
 from tests.helpers import are_same_dir
 
 
-def test_hydro_format_legacy(study_assets: StudyAssets):
+def test_st_storage(study_assets: StudyAssets):
     """
     Check that the files are correctly modified
     """
