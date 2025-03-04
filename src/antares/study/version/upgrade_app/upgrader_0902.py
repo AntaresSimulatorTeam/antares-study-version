@@ -79,10 +79,14 @@ class UpgradeTo0902(UpgradeMethod):
             sections = reader.read(file_path)
             for section in sections.values():
                 section["efficiencywithdrawal"] = 1
+                section["penalize-variation-injection"] = False
+                section["penalize-variation-withdrawal"] = False
             writer.write(sections, file_path)
 
         matrices_to_create = ["cost-injection.txt", "cost-withdrawal.txt", "cost-level.txt", "cost-variation-injection.txt", "cost-variation-withdrawal.txt"]
         series_path = st_storage_dir / "series"
+        if not Path(series_path).is_dir():
+            return
         for area in series_path.iterdir():
             area_dir = st_storage_dir / "series" / area
             for storage in area_dir.iterdir():
