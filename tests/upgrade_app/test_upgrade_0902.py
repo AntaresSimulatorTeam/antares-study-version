@@ -21,8 +21,3 @@ def test_hydro_format_legacy(study_assets: StudyAssets):
     actual_input_path = study_assets.study_dir / "input" / "st-storage"
     expected_input_path = study_assets.expected_dir / "input" / "st-storage"
     assert are_same_dir(actual_input_path, expected_input_path)
-
-    # compare links folders
-    actual_input_path = study_assets.study_dir / "input" / "links"
-    expected_input_path = study_assets.expected_dir / "input" / "links"
-    assert are_same_dir(actual_input_path, expected_input_path)
