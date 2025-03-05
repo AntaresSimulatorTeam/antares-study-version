@@ -4,7 +4,7 @@ from tests.conftest import StudyAssets
 from tests.helpers import are_same_dir
 
 
-def test_hydro_format_legacy(study_assets: StudyAssets):
+def test_nominal_case(study_assets: StudyAssets):
     """
     Check that the files are correctly modified
     """
@@ -20,9 +20,4 @@ def test_hydro_format_legacy(study_assets: StudyAssets):
     # compare st-storage folders (st-storage)
     actual_input_path = study_assets.study_dir / "input" / "st-storage"
     expected_input_path = study_assets.expected_dir / "input" / "st-storage"
-    assert are_same_dir(actual_input_path, expected_input_path)
-
-    # compare links folders
-    actual_input_path = study_assets.study_dir / "input" / "links"
-    expected_input_path = study_assets.expected_dir / "input" / "links"
     assert are_same_dir(actual_input_path, expected_input_path)

@@ -1,7 +1,6 @@
 from itertools import product
 from pathlib import Path
 
-import numpy as np
 import typing as t
 
 from antares.study.version.ini_reader import IniReader
@@ -51,7 +50,7 @@ class UpgradeTo0902(UpgradeMethod):
 
     old = StudyVersion(9, 0)
     new = StudyVersion(9, 2)
-    files = ["input/st-storage", GENERAL_DATA_PATH, "input/links"]
+    files = ["input/st-storage", GENERAL_DATA_PATH]
 
     @staticmethod
     def _upgrade_general_data(study_dir: Path) -> None:
@@ -61,48 +60,13 @@ class UpgradeTo0902(UpgradeMethod):
         adq_patch.pop("set-to-null-ntc-between-physical-out-for-first-step", None)
         other_preferences = data["other preferences"]
         other_preferences.pop("initial-reservoir-levels", None)
-        other_preferences["hydro-pmax-format"] = "daily"
-        data["general"]["nbtimeserieslinks"] = 1
+        other_preferences["shedding-policy"] = "accurate shave peaks"
+        data["compatibility"] = {"hydro-pmax": "daily"}
 
         if "variables selection" in data:
             _upgrade_thematic_trimming(data)
 
         data.to_ini_file(study_dir)
-
-    @staticmethod
-    def _upgrade_links(study_dir: Path) -> None:
-        links_path = study_dir / "input" / "links"
-        default_prepro = np.tile([1, 1, 0, 0, 0, 0], (365, 1))
-        default_modulation = np.ones(dtype=int, shape=(8760, 1))
-        for area in links_path.iterdir():
-            area_path = links_path / area
-            capacity_folder = area_path / "capacities"
-            if not capacity_folder.exists():
-                # the folder doesn't contain any existing link
-                continue
-
-            ini_path = area_path / "properties.ini"
-            reader = IniReader()
-            writer = IniWriter()
-            sections = reader.read(ini_path)
-            area_names = []
-            for area_name, section in sections.items():
-                area_names.append(area_name)
-                section["unitcount"] = 1
-                section["nominalcapacity"] = 0
-                section["law.planned"] = "uniform"
-                section["law.forced"] = "uniform"
-                section["volatility.planned"] = 0
-                section["volatility.forced"] = 0
-                section["force-no-generation"] = True
-            writer.write(sections, ini_path)
-
-            prepro_path = area_path / "prepro"
-            prepro_path.mkdir()
-            for area_name in area_names:
-                np.savetxt(prepro_path / f"{area_name}_direct.txt", default_prepro, delimiter="\t", fmt="%.6f")
-                np.savetxt(prepro_path / f"{area_name}_indirect.txt", default_prepro, delimiter="\t", fmt="%.6f")
-                np.savetxt(prepro_path / f"{area_name}_mod.txt", default_modulation, delimiter="\t", fmt="%.6f")
 
     @staticmethod
     def _upgrade_storages(study_dir: Path) -> None:
@@ -114,10 +78,20 @@ class UpgradeTo0902(UpgradeMethod):
             sections = reader.read(file_path)
             for section in sections.values():
                 section["efficiencywithdrawal"] = 1
+                section["penalize-variation-injection"] = False
+                section["penalize-variation-withdrawal"] = False
             writer.write(sections, file_path)
 
-        matrices_to_create = ["cost-injection.txt", "cost-withdrawal.txt", "cost-level.txt"]
+        matrices_to_create = [
+            "cost-injection.txt",
+            "cost-withdrawal.txt",
+            "cost-level.txt",
+            "cost-variation-injection.txt",
+            "cost-variation-withdrawal.txt",
+        ]
         series_path = st_storage_dir / "series"
+        if not Path(series_path).is_dir():
+            return
         for area in series_path.iterdir():
             area_dir = st_storage_dir / "series" / area
             for storage in area_dir.iterdir():
@@ -135,5 +109,4 @@ class UpgradeTo0902(UpgradeMethod):
         """
 
         cls._upgrade_general_data(study_dir)
-        cls._upgrade_links(study_dir)
         cls._upgrade_storages(study_dir)
