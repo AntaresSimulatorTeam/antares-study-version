@@ -87,7 +87,7 @@ class UpgradeTo0902(UpgradeMethod):
             "cost-withdrawal.txt",
             "cost-level.txt",
             "cost-variation-injection.txt",
-            "cost-variation-withdrawal.txt"
+            "cost-variation-withdrawal.txt",
         ]
         series_path = st_storage_dir / "series"
         if not Path(series_path).is_dir():
