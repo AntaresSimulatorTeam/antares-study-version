@@ -1,7 +1,6 @@
 from itertools import product
 from pathlib import Path
 
-import numpy as np
 import typing as t
 
 from antares.study.version.ini_reader import IniReader
@@ -62,7 +61,7 @@ class UpgradeTo0902(UpgradeMethod):
         other_preferences = data["other preferences"]
         other_preferences.pop("initial-reservoir-levels", None)
         other_preferences["shedding-policy"] = "accurate shave peaks"
-        compatibility = data["compatibility"] = {"hydro-pmax":"daily"}
+        data["compatibility"] = {"hydro-pmax": "daily"}
 
         if "variables selection" in data:
             _upgrade_thematic_trimming(data)
@@ -83,7 +82,13 @@ class UpgradeTo0902(UpgradeMethod):
                 section["penalize-variation-withdrawal"] = False
             writer.write(sections, file_path)
 
-        matrices_to_create = ["cost-injection.txt", "cost-withdrawal.txt", "cost-level.txt", "cost-variation-injection.txt", "cost-variation-withdrawal.txt"]
+        matrices_to_create = [
+            "cost-injection.txt",
+            "cost-withdrawal.txt",
+            "cost-level.txt",
+            "cost-variation-injection.txt",
+            "cost-variation-withdrawal.txt",
+        ]
         series_path = st_storage_dir / "series"
         if not Path(series_path).is_dir():
             return
