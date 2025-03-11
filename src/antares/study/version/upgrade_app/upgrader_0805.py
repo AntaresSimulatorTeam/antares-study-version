@@ -28,7 +28,7 @@ class UpgradeTo0805(UpgradeMethod):
         adequacy_patch["price-taking-order"] = "DENS"
         adequacy_patch["include-hurdle-cost-csr"] = False
         adequacy_patch["check-csr-cost-function"] = False
-        adequacy_patch["threshold-initiate-curtailment-sharing-rule"] = 0.0
+        adequacy_patch["threshold-initiate-curtailment-sharing-rule"] = 1.0
         adequacy_patch["threshold-display-local-matching-rule-violations"] = 0.0
-        adequacy_patch["threshold-csr-variable-bounds-relaxation"] = 3
+        adequacy_patch["threshold-csr-variable-bounds-relaxation"] = 7
         data.to_ini_file(study_dir)
