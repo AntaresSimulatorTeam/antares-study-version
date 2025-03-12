@@ -32,6 +32,9 @@ Documentation = "https://github.com/AntaresSimulatorTeam/antares-study-version#r
 Issues = "https://github.com/AntaresSimulatorTeam/antares-study-version/issues"
 Source = "https://github.com/AntaresSimulatorTeam/antares-study-version"
 
+[tool.setuptools.data-files]
+antares = ["src/antares/study/version/create_app/resources/*.zip"]
+
 [tool.mypy]
 files = ["src/", "tests/"]
 ignore_missing_imports = true
