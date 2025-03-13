@@ -1,21 +1,23 @@
 Changelog
 =========
 
-v1.0.12 (2025-03-12)
+v1.0.13 (2025-03-13)
 -------------------
 
 ## What's Changed
-* fix(resources): remove usage of importlib.resources by @MartinBelthle in https://github.com/AntaresSimulatorTeam/antares-study-version/pull/27
-* build: remove usage of hatch by @MartinBelthle in https://github.com/AntaresSimulatorTeam/antares-study-version/pull/28
-* Fix pyproject.toml by @flomnes in https://github.com/AntaresSimulatorTeam/antares-study-version/pull/29
-* Handle 9.2 version by @payetvin in https://github.com/AntaresSimulatorTeam/antares-study-version/pull/26
-* chore(study_templates): update default values of study templates by @maugde in https://github.com/AntaresSimulatorTeam/antares-study-version/pull/30
+* chore(pyproject): add config to keep zip files in the final package by @maugde in https://github.com/AntaresSimulatorTeam/antares-study-version/pull/33
 
-## New Contributors
-* @payetvin made their first contribution in https://github.com/AntaresSimulatorTeam/antares-study-version/pull/26
-* @maugde made their first contribution in https://github.com/AntaresSimulatorTeam/antares-study-version/pull/30
 
-**Full Changelog**: https://github.com/AntaresSimulatorTeam/antares-study-version/compare/v1.0.11...v1.0.12
+**Full Changelog**: https://github.com/AntaresSimulatorTeam/antares-study-version/compare/v1.0.12...v1.0.13
+
+v1.0.12 (2025-03-12)
+-------------------
+
+- remove usage of importlib.resources
+- remove usage of hatch
+- fix pyproject.toml
+- handle 9.2 version
+- update default values of study templates
 
 v1.0.10 (2024-10-25)
 -------------------

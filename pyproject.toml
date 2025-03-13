@@ -1,6 +1,6 @@
 [project]
 name = "antares-study-version"
-version = "1.0.12"
+version = "1.0.13"
 description = 'Study version manager for Antares ecosystem'
 readme = "README.md"
 requires-python = ">=3.8"
