@@ -1,6 +1,15 @@
 Changelog
 =========
 
+v1.0.14 (2025-03-21)
+-------------------
+
+## What's Changed
+* fix(9.2): support new 9.2 hydro field `overflow spilled cost difference ` by @MartinBelthle in https://github.com/AntaresSimulatorTeam/antares-study-version/pull/35
+
+
+**Full Changelog**: https://github.com/AntaresSimulatorTeam/antares-study-version/compare/v1.0.13...v1.0.14
+
 v1.0.13 (2025-03-13)
 -------------------
 
