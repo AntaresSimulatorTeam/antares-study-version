@@ -50,7 +50,7 @@ class UpgradeTo0902(UpgradeMethod):
 
     old = StudyVersion(9, 0)
     new = StudyVersion(9, 2)
-    files = ["input/st-storage", GENERAL_DATA_PATH]
+    files = ["input/st-storage", GENERAL_DATA_PATH, "input/hydro/hydro.ini", "input/areas"]
 
     @staticmethod
     def _upgrade_general_data(study_dir: Path) -> None:
@@ -99,6 +99,25 @@ class UpgradeTo0902(UpgradeMethod):
                 for matrix in matrices_to_create:
                     (final_dir / matrix).touch()
 
+    @staticmethod
+    def _upgrade_hydro(study_dir: Path) -> None:
+        # Retrieves the list of existing areas
+        all_areas_ids = set()
+        for element in (study_dir / "input" / "areas").iterdir():
+            if element.is_dir():
+                all_areas_ids.add(element.name)
+
+        # Builds the new section to add to the file
+        new_section = {area_id: 1 for area_id in all_areas_ids}
+
+        # Adds the section to the file
+        ini_path = study_dir / "input" / "hydro" / "hydro.ini"
+        reader = IniReader()
+        sections = reader.read(ini_path)
+        sections["overflow spilled cost difference"] = new_section
+        writer = IniWriter()
+        writer.write(sections, ini_path)
+
     @classmethod
     def upgrade(cls, study_dir: Path) -> None:
         """
@@ -110,3 +129,4 @@ class UpgradeTo0902(UpgradeMethod):
 
         cls._upgrade_general_data(study_dir)
         cls._upgrade_storages(study_dir)
+        cls._upgrade_hydro(study_dir)

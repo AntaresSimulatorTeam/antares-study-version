@@ -1,3 +1,4 @@
+from antares.study.version.ini_reader import IniReader
 from antares.study.version.model.general_data import GeneralData
 from antares.study.version.upgrade_app.upgrader_0902 import UpgradeTo0902
 from tests.conftest import StudyAssets
@@ -15,6 +16,13 @@ def test_nominal_case(study_assets: StudyAssets):
     # compare generaldata.ini
     actual = GeneralData.from_ini_file(study_assets.study_dir)
     expected = GeneralData.from_ini_file(study_assets.expected_dir)
+    assert actual == expected
+
+    # compare hydro.ini
+    actual_hydro_ini_path = study_assets.study_dir / "input" / "hydro" / "hydro.ini"
+    actual = IniReader().read(actual_hydro_ini_path)
+    expected_path = study_assets.expected_dir / "input" / "hydro" / "hydro.ini"
+    expected = IniReader().read(expected_path)
     assert actual == expected
 
     # compare st-storage folders (st-storage)
