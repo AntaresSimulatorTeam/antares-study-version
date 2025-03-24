@@ -1,6 +1,15 @@
 Changelog
 =========
 
+v1.0.15 (2025-03-24)
+-------------------
+
+## What's Changed
+* fix(9.2): use legacy `hydro-pmax` value when creating a study by @MartinBelthle in https://github.com/AntaresSimulatorTeam/antares-study-version/pull/37
+
+
+**Full Changelog**: https://github.com/AntaresSimulatorTeam/antares-study-version/compare/v1.0.14...v1.0.15
+
 v1.0.14 (2025-03-21)
 -------------------
 
