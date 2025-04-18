@@ -8,9 +8,11 @@ from pathlib import Path
 from antares.study.version.exceptions import ApplicationError
 from antares.study.version.model.study_antares import StudyAntares
 from antares.study.version.model.study_version import StudyVersion
+from antares.study.version.create_app import resources
 
 _RESOURCES_PACKAGE = "antares.study.version.create_app.resources"
 
+print(resources)
 
 def get_template_version(template_name: str) -> StudyVersion:
     template_name = template_name.replace(".zip", "")
