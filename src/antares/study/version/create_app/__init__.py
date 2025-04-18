@@ -61,6 +61,7 @@ class CreateApp:
             msg = f"No available template for version {self.version}: available templates are {available_versions()}"
             raise ApplicationError(msg)
         print(f"Extracting template {template_name} to '{self.study_dir}'...")
+        print("resource package:", _RESOURCES_PACKAGE)
         with open_binary(_RESOURCES_PACKAGE, template_name) as zip_file:
             with zipfile.ZipFile(zip_file, mode="r") as archive:
                 archive.extractall(self.study_dir)
