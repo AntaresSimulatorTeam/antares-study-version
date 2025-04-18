@@ -1,6 +1,15 @@
 Changelog
 =========
 
+v1.0.16 (2025-03-24)
+-------------------
+
+## What's Changed
+* fix(desktop): create_app/ressources folder shouldn't be a python package by @smailio in https://github.com/AntaresSimulatorTeam/antares-study-version/pull/39
+
+
+**Full Changelog**: https://github.com/AntaresSimulatorTeam/antares-study-version/compare/v1.0.15...v1.0.16
+
 v1.0.15 (2025-03-24)
 -------------------
 
