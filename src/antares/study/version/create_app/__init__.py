@@ -1,5 +1,5 @@
 import dataclasses
-import datetime
+
 import sys
 import typing as t
 import zipfile
@@ -11,6 +11,11 @@ from antares.study.version.model.study_version import StudyVersion
 
 HERE = Path(__file__).resolve()
 _RESOURCES_PATH = HERE.parent / "resources"
+# If the application is running in a frozen state (e.g., packaged with PyInstaller),
+# set the resources path to the temporary directory (_MEIPASS) created by PyInstaller.
+# details here : https://pyinstaller.org/en/stable/runtime-information.html
+if getattr(sys, "frozen", False) and hasattr(sys, "_MEIPASS"):
+    _RESOURCES_PATH = Path(sys._MEIPASS) / "resources"
 
 
 def get_template_version(template_name: str) -> StudyVersion:
@@ -20,8 +25,6 @@ def get_template_version(template_name: str) -> StudyVersion:
 
 
 TEMPLATES_BY_VERSIONS: t.Dict[StudyVersion, str] = {}
-if getattr(sys, 'frozen', False) and hasattr(sys, '_MEIPASS'):
-    _RESOURCES_PATH = Path(sys._MEIPASS) / "resources"
 for resource in _RESOURCES_PATH.iterdir():
     if resource.name.endswith(".zip"):
         TEMPLATES_BY_VERSIONS[get_template_version(resource.name)] = resource.name
