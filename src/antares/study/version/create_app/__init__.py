@@ -1,21 +1,15 @@
 import dataclasses
 import datetime
-import sys
 import typing as t
 import zipfile
+from importlib.resources import contents, open_binary
 from pathlib import Path
 
 from antares.study.version.exceptions import ApplicationError
 from antares.study.version.model.study_antares import StudyAntares
 from antares.study.version.model.study_version import StudyVersion
 
-HERE = Path(__file__).resolve()
-_RESOURCES_PATH = HERE.parent / "resources"
-# If the application is running in a frozen state (e.g., packaged with PyInstaller),
-# set the resources path to the temporary directory (_MEIPASS) created by PyInstaller.
-# details here : https://pyinstaller.org/en/stable/runtime-information.html
-if getattr(sys, "frozen", False) and hasattr(sys, "_MEIPASS"):
-    _RESOURCES_PATH = Path(sys._MEIPASS) / "resources"
+_RESOURCES_PACKAGE = "antares.study.version.create_app.resources"
 
 
 def get_template_version(template_name: str) -> StudyVersion:
@@ -24,10 +18,9 @@ def get_template_version(template_name: str) -> StudyVersion:
     return StudyVersion.parse(version_str)
 
 
-TEMPLATES_BY_VERSIONS: t.Dict[StudyVersion, str] = {}
-for resource in _RESOURCES_PATH.iterdir():
-    if resource.name.endswith(".zip"):
-        TEMPLATES_BY_VERSIONS[get_template_version(resource.name)] = resource.name
+TEMPLATES_BY_VERSIONS: t.Dict[StudyVersion, str] = {
+    get_template_version(name): name for name in contents(_RESOURCES_PACKAGE) if name.endswith(".zip")
+}
 
 
 def available_versions() -> t.List[str]:
@@ -68,9 +61,10 @@ class CreateApp:
             msg = f"No available template for version {self.version}: available templates are {available_versions()}"
             raise ApplicationError(msg)
         print(f"Extracting template {template_name} to '{self.study_dir}'...")
-        resource_path = _RESOURCES_PATH / template_name
-        with zipfile.ZipFile(resource_path, mode="r") as archive:
-            archive.extractall(self.study_dir)
+        with open_binary(_RESOURCES_PACKAGE, template_name) as zip_file:
+            with zipfile.ZipFile(zip_file, mode="r") as archive:
+                archive.extractall(self.study_dir)
+
         creation_date = datetime.datetime.now()
         study_antares = StudyAntares(
             version=self.version,
