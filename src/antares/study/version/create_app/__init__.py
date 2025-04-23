@@ -19,8 +19,7 @@ def get_template_version(template_name: str) -> StudyVersion:
 
 
 TEMPLATES_BY_VERSIONS: t.Dict[StudyVersion, str] = {}
-REL_RESOURCES_PATH = _RESOURCES_PATH.relative_to(Path.cwd())
-for resource in REL_RESOURCES_PATH.iterdir():
+for resource in _RESOURCES_PATH.iterdir():
     if resource.name.endswith(".zip"):
         TEMPLATES_BY_VERSIONS[get_template_version(resource.name)] = resource.name
 
