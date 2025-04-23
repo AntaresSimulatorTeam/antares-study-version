@@ -1,6 +1,6 @@
 [project]
 name = "antares-study-version"
-version = "1.0.16"
+version = "1.0.17"
 description = 'Study version manager for Antares ecosystem'
 readme = "README.md"
 requires-python = ">=3.8"
@@ -130,3 +130,8 @@ docstring-code-format = true
 # This only has an effect when the `docstring-code-format` setting is
 # enabled.
 docstring-code-line-length = "dynamic"
+
+
+[project.entry-points."pyinstaller40"]
+hook-dirs = "antares.study.version.__pyinstaller:get_hook_dirs"
+tests = "antares.study.version.__pyinstaller:get_PyInstaller_tests"
