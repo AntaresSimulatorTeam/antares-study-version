@@ -134,4 +134,3 @@ docstring-code-line-length = "dynamic"
 
 [project.entry-points."pyinstaller40"]
 hook-dirs = "antares.study.version.__pyinstaller:get_hook_dirs"
-tests = "antares.study.version.__pyinstaller:get_PyInstaller_tests"
