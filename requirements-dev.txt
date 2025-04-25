@@ -7,3 +7,5 @@ mypy~=1.15.0; python_version > '3.8'
 mypy~=1.14.0; python_version <= '3.8'
 pandas-stubs~=2.2.3; python_version > '3.9'
 pandas-stubs~=2.0.3; python_version <= '3.9'
+pyinstaller==6.10.0
+pyinstaller-hooks-contrib==2024.8
