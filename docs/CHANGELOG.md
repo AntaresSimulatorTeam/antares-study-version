@@ -1,6 +1,13 @@
 Changelog
 =========
 
+v1.0.17 (2025-05-14)
+-------------------
+
+## What's Changed
+* fix(desktop): add pyinstaller hooks to collect zip files by @smailio in https://github.com/AntaresSimulatorTeam/antares-study-version/pull/42
+
+
 v1.0.16 (2025-03-24)
 -------------------
 
