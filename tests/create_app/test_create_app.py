@@ -49,7 +49,9 @@ class TestCreateApp:
         study_dir = tmp_path.joinpath("my-new-study-with-editor")
         study_version = StudyVersion.parse("8.4")
         editor_name = "Test Editor"
-        app = CreateApp(study_dir=study_dir, caption="My New App", version=study_version, author="Robert Smith", editor=editor_name)
+        app = CreateApp(
+            study_dir=study_dir, caption="My New App", version=study_version, author="Robert Smith", editor=editor_name
+        )
         app()
 
         study_antares_file = study_dir / "study.antares"
