@@ -67,6 +67,7 @@ class StudyAntares:
     created_date: datetime.datetime
     last_save_date: datetime.datetime
     author: str
+    editor: str = ""
 
     # Conversion and validation methods
     # ---------------------------------
@@ -128,6 +129,7 @@ class StudyAntares:
             "created_date": int(self.created_date.timestamp()),
             "last_save_date": int(self.last_save_date.timestamp()),
             "author": self.author,
+            "editor": self.editor,
         }
 
     @classmethod
@@ -151,6 +153,7 @@ class StudyAntares:
             created_date=section["created"],  # type: ignore
             last_save_date=section["lastsave"],  # type: ignore
             author=section["author"],
+            editor=section.get("editor", ""),
         )
 
     def to_ini_file(self, study_dir: t.Union[str, Path], update_save_date: bool = True) -> None:
@@ -174,6 +177,7 @@ class StudyAntares:
 
         section_dict["created"] = section_dict.pop("created_date")
         section_dict["lastsave"] = section_dict.pop("last_save_date")
+        section_dict["editor"] = section_dict.pop("editor")
 
         parser = configparser.ConfigParser()
         parser["antares"] = section_dict
