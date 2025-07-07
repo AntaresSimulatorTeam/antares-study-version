@@ -74,7 +74,7 @@ class CreateApp:
             created_date=creation_date,
             last_save_date=creation_date,
             author=self.author,
-            editor=self.editor,
+            editor=self.editor or self.author,
         )
         print("Writing 'study.antares' file...")
         study_antares.to_ini_file(self.study_dir, update_save_date=False)

@@ -63,7 +63,7 @@ class TestCli:
             "created": ANY,
             "lastsave": ANY,
             "author": "Jane Doe",
-            "editor": "",
+            "editor": "Jane Doe",
         }
         assert expected == section_dict
         created_date = datetime.datetime.fromtimestamp(float(section_dict["created"]))
@@ -103,5 +103,5 @@ class TestCli:
             "created": mock.ANY,
             "lastsave": mock.ANY,
             "author": "Robert Smith",
-            "editor": "",
+            "editor": "Robert Smith",
         }
