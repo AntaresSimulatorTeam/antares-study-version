@@ -11,14 +11,6 @@ from .exceptions import UnexpectedThematicTrimmingFieldsError
 from .upgrade_method import UpgradeMethod
 from ..model.general_data import GENERAL_DATA_PATH, GeneralData
 
-class UpgradeTo0903(UpgradeMethod):
-    """
-    This class upgrades the study from version 9.2 to version 9.3.
-    """
-
-    old = StudyVersion(9, 2)
-    new = StudyVersion(9, 3)
-
 def _upgrade_thematic_trimming(data: GeneralData) -> None:
     def _get_possible_thermal_variables() -> t.Set[str]:
         groups = ["nuclear", "lignite", "coal", "battery", "gas", "oil", "mix. fuel", "misc. dtg", "misc. dtg 2", "misc. dtg 3", "misc. dtg 4"]
@@ -73,6 +65,14 @@ def _upgrade_thematic_trimming(data: GeneralData) -> None:
             d[select_var]["keep"].append("RENEWABLE GEN.")
             variables_selection[select_var] = d[select_var]["keep"]
 
+class UpgradeTo0903(UpgradeMethod):
+    """
+    This class upgrades the study from version 9.2 to version 9.3.
+    """
+
+    old = StudyVersion(9, 2)
+    new = StudyVersion(9, 3)
+
     @staticmethod
     def _upgrade_general_data(study_dir: Path) -> None:
         data = GeneralData.from_ini_file(study_dir)
@@ -88,7 +88,6 @@ def _upgrade_thematic_trimming(data: GeneralData) -> None:
             _upgrade_thematic_trimming(data)
 
         data.to_ini_file(study_dir)
-
 
     @classmethod
     def upgrade(cls, study_dir: Path) -> None:
