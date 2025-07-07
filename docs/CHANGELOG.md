@@ -1,6 +1,13 @@
 Changelog
 =========
 
+v1.0.18 (2025-07-07)
+-------------------
+
+## What's Changed
+* feat(study): add editor field in study by @TheoPascoli in https://github.com/AntaresSimulatorTeam/antares-study-version/pull/44
+
+
 v1.0.17 (2025-05-14)
 -------------------
 
