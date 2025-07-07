@@ -44,12 +44,14 @@ class CreateApp:
     caption: str
     version: StudyVersion
     author: str
+    editor: str = ""
 
     def __post_init__(self):
         self.study_dir = Path(self.study_dir)
         self.caption = self.caption.strip()
         self.version = StudyVersion.parse(self.version)
         self.author = self.author.strip()
+        self.editor = self.editor.strip()
         if self.study_dir.exists():
             raise FileExistsError(f"Study directory already exists: '{self.study_dir}'")
         if not self.caption:
@@ -72,6 +74,7 @@ class CreateApp:
             created_date=creation_date,
             last_save_date=creation_date,
             author=self.author,
+            editor=self.editor or self.author,
         )
         print("Writing 'study.antares' file...")
         study_antares.to_ini_file(self.study_dir, update_save_date=False)

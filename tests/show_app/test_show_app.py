@@ -25,6 +25,7 @@ class TestShowApp:
         actual = app.study_antares
         expected = {
             "author": "John Doe",
+            "editor": "John Doe",
             "caption": "Thermal fleet optimization",
             "created_date": datetime.datetime(2009, 7, 2, 8, 42, 15),
             "last_save_date": datetime.datetime(2023, 6, 7, 9, 1, 23),

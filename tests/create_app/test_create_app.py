@@ -38,8 +38,37 @@ class TestCreateApp:
             "created": mock.ANY,
             "lastsave": mock.ANY,
             "version": expected_version,
+            "editor": "Robert Smith",
         }
 
         created_date = datetime.datetime.fromtimestamp(ini_reader.getint("antares", "created"))
         last_save_date = datetime.datetime.fromtimestamp(ini_reader.getint("antares", "lastsave"))
         assert last_save_date == created_date
+
+    def test_create_app_with_editor(self, tmp_path: Path):
+        study_dir = tmp_path.joinpath("my-new-study-with-editor")
+        study_version = StudyVersion.parse("8.4")
+        editor_name = "Test Editor"
+        app = CreateApp(
+            study_dir=study_dir, caption="My New App", version=study_version, author="Robert Smith", editor=editor_name
+        )
+        app()
+
+        study_antares_file = study_dir / "study.antares"
+        ini_reader = configparser.ConfigParser()
+        ini_reader.read(study_antares_file, encoding="utf-8")
+        properties = ini_reader["antares"]
+        assert properties["editor"] == editor_name
+
+    def test_create_app_without_editor(self, tmp_path: Path):
+        study_dir = tmp_path.joinpath("my-new-study-with-editor")
+        study_version = StudyVersion.parse("8.4")
+        author = "Test Editor"
+        app = CreateApp(study_dir=study_dir, caption="My New App", version=study_version, author=author)
+        app()
+
+        study_antares_file = study_dir / "study.antares"
+        ini_reader = configparser.ConfigParser()
+        ini_reader.read(study_antares_file, encoding="utf-8")
+        properties = ini_reader["antares"]
+        assert properties["editor"] == author
