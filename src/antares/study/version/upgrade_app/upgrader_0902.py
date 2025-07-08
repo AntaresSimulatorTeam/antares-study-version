@@ -41,6 +41,7 @@ def _upgrade_thematic_trimming(data: GeneralData) -> None:
         for var in variables_selection.get(select_var_plus, []):
             if var.lower() in var_to_remove:
                 d[select_var_plus].append("STS BY GROUP")
+                break
     variables_selection[select_var_plus] = d[select_var_plus]
 
 
