@@ -12,58 +12,49 @@ from .upgrade_method import UpgradeMethod
 from ..model.general_data import GENERAL_DATA_PATH, GeneralData
 
 def _upgrade_thematic_trimming(data: GeneralData) -> None:
-    def _get_possible_thermal_variables() -> t.Set[str]:
+    def _get_thermal_variables_to_remove() -> t.Set[str]:
         groups = ["nuclear", "lignite", "coal", "battery", "gas", "oil", "mix. fuel", "misc. dtg", "misc. dtg 2", "misc. dtg 3", "misc. dtg 4"]
         return groups
 
-    def _get_possible_renewable_variables() -> t.Set[str]:
+    def _get_renewable_variables_to_remove() -> t.Set[str]:
         groups = ["wind offshore", "wind onshore", "solar concrt.", "solar pv", "solar rooft", "renw. 1", "renw. 2", "renw. 3", "renw. 4"]
         return groups
 
     variables_selection = data["variables selection"]
-    possible_variables = _get_possible_thermal_variables()
+    var_thermal_to_remove = _get_thermal_variables_to_remove()
+    var_renewable_to_remove = _get_renewable_variables_to_remove()
+    
     d: t.Dict[str, t.Dict[str, t.List[str]]] = {}
     for sign in ["+", "-"]:
         select_var = f"select_var {sign}"
-        d[select_var] = {"keep": [], "remove": []}
-        # The 'remove' list gathers all fields that should not be kept after the upgrade.
-        # It applies to any field listed by the `_get_possible_variables` methods.
-        # The 'keep' list gathers all fields that have nothing to do with the upgrade and therefore should be kept.
-        # We check these fields for enabled and disabled variables (symbolized by +/-) as we can have both.
-        # In the end, we remove all legacy fields and replace them either by "DISPATCH. GEN." or "RENEWABLE GEN.".
+        d[select_var] = []
+        
+        # append all variables not in the list to remove
         for var in variables_selection.get(select_var, []):
-            key = "remove" if var.lower() in possible_variables else "keep"
-            d[select_var][key].append(var)
+            if not var.lower() in var_thermal_to_remove and not var.lower() in var_renewable_to_remove:
+                d[select_var].append(var)
 
-    if d["select_var +"]["remove"] and d["select_var -"]["remove"]:
-        raise UnexpectedThematicTrimmingFieldsError(d["select_var +"]["remove"], d["select_var -"]["remove"])
-    for sign in ["+", "-"]:
-        select_var = f"select_var {sign}"
-        if d[select_var]["keep"]:
-            d[select_var]["keep"].append("DISPATCH. GEN.")
-            variables_selection[select_var] = d[select_var]["keep"]
+    # we don't want to remove all groups we don't append STS by group
+    select_var_minus = f"select_var -"
+    variables_selection[select_var_minus] = d[select_var_minus]
 
-    possible_variables = _get_possible_renewable_variables()
-    d: t.Dict[str, t.Dict[str, t.List[str]]] = {}
-    for sign in ["+", "-"]:
-        select_var = f"select_var {sign}"
-        d[select_var] = {"keep": [], "remove": []}
-        # The 'remove' list gathers all fields that should not be kept after the upgrade.
-        # It applies to any field listed by the `_get_possible_variables` methods.
-        # The 'keep' list gathers all fields that have nothing to do with the upgrade and therefore should be kept.
-        # We check these fields for enabled and disabled variables (symbolized by +/-) as we can have both.
-        # In the end, we remove all legacy fields and replace them either by "DISPATCH. GEN." or "RENEWABLE GEN.".
-        for var in variables_selection.get(select_var, []):
-            key = "remove" if var.lower() in possible_variables else "keep"
-            d[select_var][key].append(var)
+    # if some groups were enabled we reactivate the var
+    append_thermal = False
+    append_renewable = False
+    select_var_plus = f"select_var +"
+    if d[select_var_plus]:
+        for var in variables_selection.get(select_var_plus, []):
+            if var.lower() in var_thermal_to_remove:
+                append_thermal = True
+            if var.lower() in var_renewable_to_remove:
+                append_renewable = True
 
-    if d["select_var +"]["remove"] and d["select_var -"]["remove"]:
-        raise UnexpectedThematicTrimmingFieldsError(d["select_var +"]["remove"], d["select_var -"]["remove"])
-    for sign in ["+", "-"]:
-        select_var = f"select_var {sign}"
-        if d[select_var]["keep"]:
-            d[select_var]["keep"].append("RENEWABLE GEN.")
-            variables_selection[select_var] = d[select_var]["keep"]
+    if append_thermal:
+        d[select_var_plus].append("DISPATCH. GEN.")
+    if append_renewable:
+        d[select_var_plus].append("RENEWABLE GEN.")
+
+    variables_selection[select_var_plus] = d[select_var_plus]
 
 class UpgradeTo0903(UpgradeMethod):
     """
