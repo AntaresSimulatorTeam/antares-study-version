@@ -61,12 +61,11 @@ def _upgrade_thematic_trimming(data: GeneralData) -> None:
     append_thermal = False
     append_renewable = False
     select_var_plus = "select_var +"
-    if d[select_var_plus]:
-        for var in variables_selection.get(select_var_plus, []):
-            if var.lower() in var_thermal_to_remove:
-                append_thermal = True
-            if var.lower() in var_renewable_to_remove:
-                append_renewable = True
+    for var in variables_selection.get(select_var_plus, []):
+        if var.lower() in var_thermal_to_remove:
+            append_thermal = True
+        if var.lower() in var_renewable_to_remove:
+            append_renewable = True
 
     if append_thermal:
         d[select_var_plus].append("DISPATCH. GEN.")
