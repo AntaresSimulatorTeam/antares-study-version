@@ -36,11 +36,10 @@ def _upgrade_thematic_trimming(data: GeneralData) -> None:
 
     # if some groups were enabled we reactivate the var
     select_var_plus = "select_var +"
-    if d[select_var_plus]:
-        for var in variables_selection.get(select_var_plus, []):
-            if var.lower() in var_to_remove:
-                d[select_var_plus].append("STS BY GROUP")
-                break
+    for var in variables_selection.get(select_var_plus, []):
+        if var.lower() in var_to_remove:
+            d[select_var_plus].append("STS BY GROUP")
+            break
     variables_selection[select_var_plus] = d[select_var_plus]
 
 
