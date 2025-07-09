@@ -6,7 +6,6 @@ import typing as t
 from antares.study.version.ini_reader import IniReader
 from antares.study.version.ini_writer import IniWriter
 from antares.study.version.model.study_version import StudyVersion
-from .exceptions import UnexpectedThematicTrimmingFieldsError
 
 from .upgrade_method import UpgradeMethod
 from ..model.general_data import GENERAL_DATA_PATH, GeneralData
@@ -20,23 +19,23 @@ def _upgrade_thematic_trimming(data: GeneralData) -> None:
 
     variables_selection = data["variables selection"]
     var_to_remove = _get_variables_to_remove()
-    
+
     d: t.Dict[str, t.Dict[str, t.List[str]]] = {}
     for sign in ["+", "-"]:
         select_var = f"select_var {sign}"
         d[select_var] = []
-        
+
         # append all variables not in the list to remove
         for var in variables_selection.get(select_var, []):
-            if not var.lower() in var_to_remove:
+            if var.lower() not in var_to_remove:
                 d[select_var].append(var)
 
     # we don't want to remove all groups we don't append STS by group
-    select_var_minus = f"select_var -"
+    select_var_minus = "select_var -"
     variables_selection[select_var_minus] = d[select_var_minus]
 
     # if some groups were enabled we reactivate the var
-    select_var_plus = f"select_var +"
+    select_var_plus = "select_var +"
     if d[select_var_plus]:
         for var in variables_selection.get(select_var_plus, []):
             if var.lower() in var_to_remove:
