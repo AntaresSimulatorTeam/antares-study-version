@@ -20,10 +20,10 @@ def _upgrade_thematic_trimming(data: GeneralData) -> None:
     variables_selection = data["variables selection"]
     var_to_remove = _get_variables_to_remove()
 
-    d: t.Dict[str, t.Dict[str, t.List[str]]] = {}
+    d: t.Dict[str, t.List[str]] = {}
     for sign in ["+", "-"]:
         select_var = f"select_var {sign}"
-        d[select_var] = []
+        d[select_var] = {}
 
         # append all variables not in the list to remove
         for var in variables_selection.get(select_var, []):
