@@ -23,7 +23,7 @@ def _upgrade_thematic_trimming(data: GeneralData) -> None:
     d: t.Dict[str, t.List[str]] = {}
     for sign in ["+", "-"]:
         select_var = f"select_var {sign}"
-        d[select_var] = {}
+        d[select_var] = []
 
         # append all variables not in the list to remove
         for var in variables_selection.get(select_var, []):
