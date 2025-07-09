@@ -95,6 +95,9 @@ class UpgradeTo0903(UpgradeMethod):
         general.pop("refreshintervalthermal", None)
         general.pop("refreshintervalsolar", None)
 
+        data["other preferences"]["accurate-shave-peaks-include-short-term-storage"] = False
+        data["adequacy patch"]["redispatch"] = False
+
         if "variables selection" in data:
             _upgrade_thematic_trimming(data)
 
