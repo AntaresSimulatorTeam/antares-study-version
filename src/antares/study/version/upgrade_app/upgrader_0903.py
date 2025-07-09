@@ -43,7 +43,7 @@ def _upgrade_thematic_trimming(data: GeneralData) -> None:
     var_thermal_to_remove = _get_thermal_variables_to_remove()
     var_renewable_to_remove = _get_renewable_variables_to_remove()
 
-    d: t.Dict[str, t.Dict[str, t.List[str]]] = {}
+    d: t.Dict[str, t.List[str]] = {}
     for sign in ["+", "-"]:
         select_var = f"select_var {sign}"
         d[select_var] = []
