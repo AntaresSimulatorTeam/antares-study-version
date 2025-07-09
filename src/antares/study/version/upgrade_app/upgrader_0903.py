@@ -10,7 +10,7 @@ from ..model.general_data import GeneralData
 
 def _upgrade_thematic_trimming(data: GeneralData) -> None:
     def _get_thermal_variables_to_remove() -> t.Set[str]:
-        groups = [
+        groups = {
             "nuclear",
             "lignite",
             "coal",
@@ -22,11 +22,11 @@ def _upgrade_thematic_trimming(data: GeneralData) -> None:
             "misc. dtg 2",
             "misc. dtg 3",
             "misc. dtg 4",
-        ]
+        }
         return groups
 
     def _get_renewable_variables_to_remove() -> t.Set[str]:
-        groups = [
+        groups = {
             "wind offshore",
             "wind onshore",
             "solar concrt.",
@@ -36,7 +36,7 @@ def _upgrade_thematic_trimming(data: GeneralData) -> None:
             "renw. 2",
             "renw. 3",
             "renw. 4",
-        ]
+        }
         return groups
 
     variables_selection = data["variables selection"]
