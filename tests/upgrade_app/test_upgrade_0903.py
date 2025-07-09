@@ -11,7 +11,7 @@ def test_nominal_case(study_assets: StudyAssets):
     """
 
     # upgrade the study
-    UpgradeTo0902.upgrade(study_assets.study_dir)
+    UpgradeTo0903.upgrade(study_assets.study_dir)
 
     # compare generaldata.ini
     actual = GeneralData.from_ini_file(study_assets.study_dir)
