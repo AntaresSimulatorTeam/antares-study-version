@@ -35,6 +35,7 @@ def _upgrade_thematic_trimming(data: GeneralData) -> None:
 
         variables_selection[select_var_key] = filtered_vars
 
+
 class UpgradeTo0902(UpgradeMethod):
     """
     This class upgrades the study from version 9.0 to version 9.2.
