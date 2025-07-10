@@ -1,5 +1,4 @@
 from itertools import product
-from typing import Set, Dict, List, Any
 from pathlib import Path
 
 import typing as t
@@ -13,10 +12,10 @@ from ..model.general_data import GENERAL_DATA_PATH, GeneralData
 
 
 def _upgrade_thematic_trimming(data: GeneralData) -> None:
-    def _get_variables_to_remove() -> Set[str]:
+    def _get_variables_to_remove() -> t.Set[str]:
         groups = ["psp_open", "psp_closed", "pondage", "battery", "other1", "other2", "other3", "other4", "other5"]
         outputs = ["injection", "withdrawal", "level"]
-        return {f"{group}_{output}".lower() for group, output in product(groups, outputs)}
+        return {f"{group}_{output}" for group, output in product(groups, outputs)}
 
     variables_selection = data["variables selection"]
     var_to_remove = _get_variables_to_remove()

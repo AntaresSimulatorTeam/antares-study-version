@@ -42,30 +42,25 @@ def _upgrade_thematic_trimming(data: GeneralData) -> None:
     variables_selection = data["variables selection"]
     var_thermal_to_remove = _get_thermal_variables_to_remove()
     var_renewable_to_remove = _get_renewable_variables_to_remove()
+    var_to_remove = var_thermal_to_remove.union(var_renewable_to_remove)
 
     d: t.Dict[str, t.List[str]] = {}
     for sign in ["+", "-"]:
-        select_var = f"select_var {sign}"
-        d[select_var] = []
+        select_var_key = f"select_var {sign}"
+        original_vars = variables_selection.get(select_var_key, [])
+        filtered_vars = [var for var in original_vars if var.lower() not in var_to_remove]
+        d[select_var_key] = filtered_vars
 
-        # append all variables not in the list to remove
-        for var in variables_selection.get(select_var, []):
-            if var.lower() not in var_thermal_to_remove and var.lower() not in var_renewable_to_remove:
-                d[select_var].append(var)
-
-    # we don't want to remove all groups we don't append STS by group
+    # Update "select_var -"
     select_var_minus = "select_var -"
     variables_selection[select_var_minus] = d[select_var_minus]
 
-    # if some groups were enabled we reactivate the var
-    append_thermal = False
-    append_renewable = False
+    # Process "+" further
     select_var_plus = "select_var +"
-    for var in variables_selection.get(select_var_plus, []):
-        if var.lower() in var_thermal_to_remove:
-            append_thermal = True
-        if var.lower() in var_renewable_to_remove:
-            append_renewable = True
+    original_plus_vars = variables_selection.get(select_var_plus, [])
+
+    append_thermal = any(var.lower() in var_thermal_to_remove for var in original_plus_vars)
+    append_renewable = any(var.lower() in var_renewable_to_remove for var in original_plus_vars)
 
     if append_thermal:
         d[select_var_plus].append("DISPATCH. GEN.")
@@ -73,7 +68,6 @@ def _upgrade_thematic_trimming(data: GeneralData) -> None:
         d[select_var_plus].append("RENEWABLE GEN.")
 
     variables_selection[select_var_plus] = d[select_var_plus]
-
 
 class UpgradeTo0903(UpgradeMethod):
     """
