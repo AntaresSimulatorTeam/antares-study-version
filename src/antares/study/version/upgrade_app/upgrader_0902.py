@@ -1,4 +1,5 @@
 from itertools import product
+from typing import Set, Dict, List, Any
 from pathlib import Path
 
 import typing as t
@@ -12,36 +13,28 @@ from ..model.general_data import GENERAL_DATA_PATH, GeneralData
 
 
 def _upgrade_thematic_trimming(data: GeneralData) -> None:
-    def _get_variables_to_remove() -> t.Set[str]:
+    def _get_variables_to_remove() -> Set[str]:
         groups = ["psp_open", "psp_closed", "pondage", "battery", "other1", "other2", "other3", "other4", "other5"]
         outputs = ["injection", "withdrawal", "level"]
-        return {f"{group}_{output}" for group, output in product(groups, outputs)}
+        return {f"{group}_{output}".lower() for group, output in product(groups, outputs)}
 
     variables_selection = data["variables selection"]
     var_to_remove = _get_variables_to_remove()
 
-    d: t.Dict[str, t.List[str]] = {}
+    # Process both signs
     for sign in ["+", "-"]:
-        select_var = f"select_var {sign}"
-        d[select_var] = []
+        select_var_key = f"select_var {sign}"
+        original_vars = variables_selection.get(select_var_key, [])
 
-        # append all variables not in the list to remove
-        for var in variables_selection.get(select_var, []):
-            if var.lower() not in var_to_remove:
-                d[select_var].append(var)
+        # Filter variables not in var_to_remove
+        filtered_vars = [var for var in original_vars if var.lower() not in var_to_remove]
 
-    # we don't want to remove all groups we don't append STS by group
-    select_var_minus = "select_var -"
-    variables_selection[select_var_minus] = d[select_var_minus]
+        # Special handling for "+": add "STS BY GROUP" if any original var was in var_to_remove
+        if sign == "+":
+            if any(var.lower() in var_to_remove for var in original_vars):
+                filtered_vars.append("STS BY GROUP")
 
-    # if some groups were enabled we reactivate the var
-    select_var_plus = "select_var +"
-    for var in variables_selection.get(select_var_plus, []):
-        if var.lower() in var_to_remove:
-            d[select_var_plus].append("STS BY GROUP")
-            break
-    variables_selection[select_var_plus] = d[select_var_plus]
-
+        variables_selection[select_var_key] = filtered_vars
 
 class UpgradeTo0902(UpgradeMethod):
     """
