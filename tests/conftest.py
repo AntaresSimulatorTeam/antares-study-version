@@ -7,7 +7,7 @@ import pytest
 STUDY_ANTARES_FILE = """\
 [antares]
 caption = Thermal fleet optimization
-version = 9.2
+version = 9.3
 created = 1246524135
 lastsave = 1686128483
 author = John Doe
