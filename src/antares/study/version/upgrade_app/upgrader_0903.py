@@ -8,7 +8,7 @@ from .upgrade_method import UpgradeMethod
 from ..model.general_data import GeneralData
 
 
-def _upgrade_thematic_trimming(data: GeneralData) -> None:
+def upgrade_thematic_trimming(data: GeneralData) -> None:
     def _get_thermal_variables_to_remove() -> t.Set[str]:
         groups = {
             "nuclear",
@@ -93,7 +93,7 @@ class UpgradeTo0903(UpgradeMethod):
         data["adequacy patch"]["redispatch"] = False
 
         if "variables selection" in data:
-            _upgrade_thematic_trimming(data)
+            upgrade_thematic_trimming(data)
 
         data.to_ini_file(study_dir)
 
