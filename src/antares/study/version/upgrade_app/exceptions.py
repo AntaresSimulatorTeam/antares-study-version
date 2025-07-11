@@ -25,17 +25,3 @@ class UnexpectedMatrixLinksError(UpgradeError):
             f" that allows to replace the matrix links by valid TSV matrices."
         )
         super().__init__(message)
-
-
-class UnexpectedThematicTrimmingFieldsError(UpgradeError):
-    """
-    Exception raised when there are unexpected thematic trimming fields in the generaldata.ini file.
-    """
-
-    def __init__(self, enabled_fields: List[str], disabled_fields: List[str]):
-        message = (
-            f"Found these enabled fields {enabled_fields} with these disabled fields {disabled_fields} in the"
-            f" generaldata.ini. We cannot determine if the new variable `STS by group` should be enabled or disabled."
-            f" Choose one before upgrading your study."
-        )
-        super().__init__(message)
