@@ -37,6 +37,7 @@ def test_filtering():
     assert result_minus == expected_minus, f"Test filtering failed: expected {expected_minus}, got {result_minus}"
     assert result_plus == expected_plus, f"Test filtering failed: expected {expected_plus}, got {result_plus}"
 
+
 def test_special_handling_plus():
     # Test case with only thermal variables in "+"
     data = {
@@ -49,7 +50,9 @@ def test_special_handling_plus():
 
     upgrade_thematic_trimming(data)
     result_plus = data["variables selection"]["select_var +"]
-    assert result_plus == expected_plus, f"Test special handling plus (thermal) failed: expected {expected_plus}, got {result_plus}"
+    assert result_plus == expected_plus, (
+        f"Test special handling plus (thermal) failed: expected {expected_plus}, got {result_plus}"
+    )
 
     # Test case with only renewable variables in "+"
     data = {
@@ -62,7 +65,9 @@ def test_special_handling_plus():
 
     upgrade_thematic_trimming(data)
     result_plus = data["variables selection"]["select_var +"]
-    assert result_plus == expected_plus, f"Test special handling plus (renewable) failed: expected {expected_plus}, got {result_plus}"
+    assert result_plus == expected_plus, (
+        f"Test special handling plus (renewable) failed: expected {expected_plus}, got {result_plus}"
+    )
 
     # Test case with both thermal and renewable variables in "+"
     data = {
@@ -75,7 +80,10 @@ def test_special_handling_plus():
 
     upgrade_thematic_trimming(data)
     result_plus = data["variables selection"]["select_var +"]
-    assert result_plus == expected_plus, f"Test special handling plus (both) failed: expected {expected_plus}, got {result_plus}"
+    assert result_plus == expected_plus, (
+        f"Test special handling plus (both) failed: expected {expected_plus}, got {result_plus}"
+    )
+
 
 def test_mixed_cases():
     # Test case with mixed case variables
@@ -91,8 +99,11 @@ def test_mixed_cases():
     upgrade_thematic_trimming(data)
     result_minus = data["variables selection"]["select_var -"]
     result_plus = data["variables selection"]["select_var +"]
-    assert result_minus == expected_minus, f"Test mixed cases failed (minus): expected {expected_minus}, got {result_minus}"
+    assert result_minus == expected_minus, (
+        f"Test mixed cases failed (minus): expected {expected_minus}, got {result_minus}"
+    )
     assert result_plus == expected_plus, f"Test mixed cases failed (plus): expected {expected_plus}, got {result_plus}"
+
 
 def test_empty_input():
     # Test case with empty input lists
@@ -108,8 +119,11 @@ def test_empty_input():
     upgrade_thematic_trimming(data)
     result_minus = data["variables selection"]["select_var -"]
     result_plus = data["variables selection"]["select_var +"]
-    assert result_minus == expected_minus, f"Test empty input failed (minus): expected {expected_minus}, got {result_minus}"
+    assert result_minus == expected_minus, (
+        f"Test empty input failed (minus): expected {expected_minus}, got {result_minus}"
+    )
     assert result_plus == expected_plus, f"Test empty input failed (plus): expected {expected_plus}, got {result_plus}"
+
 
 def test_no_removal_variables():
     # Test case with no variables to remove
@@ -125,5 +139,9 @@ def test_no_removal_variables():
     upgrade_thematic_trimming(data)
     result_minus = data["variables selection"]["select_var -"]
     result_plus = data["variables selection"]["select_var +"]
-    assert result_minus == expected_minus, f"Test no removal variables failed (minus): expected {expected_minus}, got {result_minus}"
-    assert result_plus == expected_plus, f"Test no removal variables failed (plus): expected {expected_plus}, got {result_plus}"
+    assert result_minus == expected_minus, (
+        f"Test no removal variables failed (minus): expected {expected_minus}, got {result_minus}"
+    )
+    assert result_plus == expected_plus, (
+        f"Test no removal variables failed (plus): expected {expected_plus}, got {result_plus}"
+    )

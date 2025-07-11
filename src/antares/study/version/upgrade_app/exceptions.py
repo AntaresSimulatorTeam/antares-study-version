@@ -1,6 +1,3 @@
-from typing import List
-
-
 class UpgradeError(Exception):
     """
     Base class for exceptions in this module.
