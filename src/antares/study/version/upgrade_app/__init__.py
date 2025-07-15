@@ -28,7 +28,7 @@ def is_temporary_upgrade_dir(path: Path) -> bool:
     )
 
 
-def filter_out_child_files(files: t.Collection[str]) -> t.List[str]:
+def filter_out_child_files(files: t.Collection[str]) -> list[str]:
     """
     Filters out child files from a list of files.
 
@@ -88,7 +88,7 @@ class UpgradeApp:
             raise ApplicationError(e.args[0]) from e
 
     @property
-    def upgrade_methods(self) -> t.List[UpgradeMethod]:
+    def upgrade_methods(self) -> list[UpgradeMethod]:
         """Get the list of upgrade methods to apply to the study."""
         start = self.study_antares.version
         end = self.version
@@ -126,7 +126,7 @@ class UpgradeApp:
                 self._safely_replace_original_files(files_to_retrieve, tmp_path)
                 raise
 
-    def _copies_only_necessary_files(self, files_to_upgrade: t.Collection[str], tmp_path: Path) -> t.List[str]:
+    def _copies_only_necessary_files(self, files_to_upgrade: t.Collection[str], tmp_path: Path) -> list[str]:
         """
         Copies files concerned by the version upgrader into a temporary directory.
 
@@ -156,7 +156,7 @@ class UpgradeApp:
                 files_to_retrieve.append(relpath)
         return files_to_retrieve
 
-    def _safely_replace_original_files(self, files_to_replace: t.List[str], tmp_path: Path) -> None:
+    def _safely_replace_original_files(self, files_to_replace: list[str], tmp_path: Path) -> None:
         """
         Replace files/folders of the study that should be upgraded by their copy already upgraded in the tmp directory.
         It uses Path.rename() and an intermediary tmp directory to swap the folders safely.

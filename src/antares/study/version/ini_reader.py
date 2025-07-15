@@ -4,16 +4,16 @@ import typing as t
 from abc import ABC, abstractmethod
 from pathlib import Path
 
-JSON = t.Dict[str, t.Any]
+JSON = dict[str, t.Any]
 
 
-def convert_value(value: str) -> t.Union[str, int, float, bool]:
+def convert_value(value: str) -> str | int | float | bool:
     """Convert value to the appropriate type for JSON."""
 
     try:
         # Infinity values are not supported by JSON, so we use a string instead.
         mapping = {"true": True, "false": False, "+inf": "+Inf", "-inf": "-Inf", "inf": "+Inf"}
-        return t.cast(t.Union[str, int, float, bool], mapping[value.lower()])
+        return t.cast(str | int | float | bool, mapping[value.lower()])
     except KeyError:
         try:
             return int(value)
@@ -42,8 +42,8 @@ class IniFilter:
         cls,
         section: str = "",
         option: str = "",
-        section_regex: t.Optional[t.Union[str, t.Pattern[str]]] = None,
-        option_regex: t.Optional[t.Union[str, t.Pattern[str]]] = None,
+        section_regex: t.Optional[str | t.Pattern[str]] = None,
+        option_regex: t.Optional[str | t.Pattern[str]] = None,
         **_unused: t.Any,  # ignore unknown options
     ) -> "IniFilter":
         """
@@ -148,7 +148,7 @@ class IniReader(IReader):
         self._section_name = section_name
 
         # Dictionary of parsed sections and options
-        self._curr_sections: t.Dict[str, t.Dict[str, t.Any]] = {}
+        self._curr_sections: dict[str, dict[str, t.Any]] = {}
 
         # Current section name used during paring
         self._curr_section = ""

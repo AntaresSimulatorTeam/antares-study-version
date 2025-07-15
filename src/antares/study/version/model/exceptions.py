@@ -6,7 +6,7 @@ class ValidationError(ValueError):
     Exception raised when a validation error occurs.
     """
 
-    def __init__(self, description: str, errors: t.Dict[str, str]):
+    def __init__(self, description: str, errors: dict[str, str]):
         super().__init__(description, errors)
 
     @property
@@ -14,7 +14,7 @@ class ValidationError(ValueError):
         return self.args[0]
 
     @property
-    def errors(self) -> t.Dict[str, str]:
+    def errors(self) -> dict[str, str]:
         return self.args[1]
 
     def __str__(self):

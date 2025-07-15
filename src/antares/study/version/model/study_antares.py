@@ -27,39 +27,8 @@ class StudyAntares:
         created = 1246524135
         lastsave = 1686128483
         author = John Doe
+        editor = Jack Sparrow
 
-    Usage:
-
-    >>> from antares.study.version.model.study_antares import StudyAntares
-
-    >>> data = {
-    ...     "caption": "Thermal fleet optimization",
-    ...     "version": "9.2",
-    ...     "created_date": 1246524135,
-    ...     "last_save_date": 1686128483,
-    ...     "author": "John Doe",
-    ... }
-
-    >>> study_antares = StudyAntares(**data)
-
-    >>> study_antares.caption
-    'Thermal fleet optimization'
-    >>> study_antares.version
-    StudyVersion(major=9, minor=2, patch=0)
-    >>> study_antares.created_date
-    datetime.datetime(2009, 7, 2, 10, 42, 15)
-    >>> study_antares.last_save_date
-    datetime.datetime(2023, 6, 7, 11, 1, 23)
-    >>> study_antares.author
-    'John Doe'
-
-    >>> from pprint import pprint
-    >>> pprint(study_antares.to_dict(), width=80)
-    {'author': 'John Doe',
-     'caption': 'Thermal fleet optimization',
-     'created_date': 1246524135.0,
-     'last_save_date': 1686128483.0,
-     'version': '9.1'}
     """
 
     caption: str
@@ -119,7 +88,7 @@ class StudyAntares:
     # Serialization methods
     # ---------------------
 
-    def to_dict(self) -> t.Dict[str, t.Any]:
+    def to_dict(self) -> dict[str, t.Any]:
         """
         Serialize the object to a dictionary.
         """
@@ -133,7 +102,7 @@ class StudyAntares:
         }
 
     @classmethod
-    def from_ini_file(cls, study_dir: t.Union[str, Path]) -> "StudyAntares":
+    def from_ini_file(cls, study_dir: str | Path) -> "StudyAntares":
         """
         Parse a ``study.antares`` file and return a new instance of the object.
 
@@ -157,7 +126,7 @@ class StudyAntares:
             editor=section.get("editor", author),
         )
 
-    def to_ini_file(self, study_dir: t.Union[str, Path], update_save_date: bool = True) -> None:
+    def to_ini_file(self, study_dir: str | Path, update_save_date: bool = True) -> None:
         """
         Serialize the object to a ``study.antares`` file.
 

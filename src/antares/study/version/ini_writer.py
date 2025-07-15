@@ -3,11 +3,11 @@ import configparser
 import typing as t
 from pathlib import Path
 
-JSON = t.Dict[str, t.Any]
+JSON = dict[str, t.Any]
 
 
 class IniConfigParser(configparser.RawConfigParser):
-    def __init__(self, special_keys: t.Optional[t.List[str]] = None) -> None:
+    def __init__(self, special_keys: t.Optional[list[str]] = None) -> None:
         super().__init__()
         self.special_keys = special_keys
 
@@ -55,7 +55,7 @@ class IniWriter:
     Standard INI writer.
     """
 
-    def __init__(self, special_keys: t.Optional[t.List[str]] = None):
+    def __init__(self, special_keys: t.Optional[list[str]] = None):
         self.special_keys = special_keys
 
     def write(self, data: JSON, path: Path) -> None:

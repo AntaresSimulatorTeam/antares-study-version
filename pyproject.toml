@@ -3,7 +3,7 @@ name = "antares-study-version"
 version = "1.0.18"
 description = 'Study version manager for Antares ecosystem'
 readme = "README.md"
-requires-python = ">=3.8"
+requires-python = ">=3.10"
 license = { text = "MIT" }
 keywords = ["antares", "study", "config", "configuration", "model", "versionning"]
 authors = [
@@ -12,8 +12,6 @@ authors = [
 classifiers = [
     "Development Status :: 4 - Beta",
     "Programming Language :: Python",
-    "Programming Language :: Python :: 3.8",
-    "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
@@ -87,8 +85,8 @@ exclude = [
 line-length = 120
 indent-width = 4
 
-# Assume Python 3.8
-target-version = "py38"
+# Assume Python 3.11
+target-version = "py311"
 
 [tool.ruff.lint]
 # Enable Pyflakes (`F`) and a subset of the pycodestyle (`E`)  codes by default.

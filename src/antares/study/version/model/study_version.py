@@ -128,7 +128,7 @@ class _TripletVersion:
 
 
 class SolverVersion(_TripletVersion):
-    def __init__(self, major: t.Union[str, int], minor: t.Union[str, int] = 0, patch: t.Union[str, int] = 0):
+    def __init__(self, major: int | str, minor: int | str = 0, patch: int | str = 0):
         try:
             super().__init__(int(major), int(minor), int(patch))
         except ValueError:
@@ -137,7 +137,7 @@ class SolverVersion(_TripletVersion):
 
 
 class StudyVersion(_TripletVersion):
-    def __init__(self, major: t.Union[str, int], minor: t.Union[str, int] = 0, _ignored_patch: t.Union[str, int] = 0):
+    def __init__(self, major: int | str, minor: int | str = 0, _ignored_patch: int | str = 0):
         try:
             super().__init__(int(major), int(minor), 0)
         except ValueError:

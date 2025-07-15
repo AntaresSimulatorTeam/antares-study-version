@@ -31,7 +31,7 @@ class ShowApp:
             raise ApplicationError(str(e)) from e
 
     @property
-    def available_upgrades(self) -> t.List[StudyVersion]:
+    def available_upgrades(self) -> list[StudyVersion]:
         try:
             start = self.study_antares.version
             end = scenarios[-1].new  # type: ignore
