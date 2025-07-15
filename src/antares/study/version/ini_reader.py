@@ -7,13 +7,13 @@ from pathlib import Path
 JSON = dict[str, t.Any]
 
 
-def convert_value(value: str) -> t.Union[str, int, float, bool]:
+def convert_value(value: str) -> str | int | float | bool:
     """Convert value to the appropriate type for JSON."""
 
     try:
         # Infinity values are not supported by JSON, so we use a string instead.
         mapping = {"true": True, "false": False, "+inf": "+Inf", "-inf": "-Inf", "inf": "+Inf"}
-        return t.cast(t.Union[str, int, float, bool], mapping[value.lower()])
+        return t.cast(str | int | float | bool, mapping[value.lower()])
     except KeyError:
         try:
             return int(value)
@@ -42,8 +42,8 @@ class IniFilter:
         cls,
         section: str = "",
         option: str = "",
-        section_regex: t.Optional[t.Union[str, t.Pattern[str]]] = None,
-        option_regex: t.Optional[t.Union[str, t.Pattern[str]]] = None,
+        section_regex: t.Optional[str | t.Pattern[str]] = None,
+        option_regex: t.Optional[str | t.Pattern[str]] = None,
         **_unused: t.Any,  # ignore unknown options
     ) -> "IniFilter":
         """

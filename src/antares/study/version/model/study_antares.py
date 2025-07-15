@@ -102,7 +102,7 @@ class StudyAntares:
         }
 
     @classmethod
-    def from_ini_file(cls, study_dir: t.Union[str, Path]) -> "StudyAntares":
+    def from_ini_file(cls, study_dir: str | Path) -> "StudyAntares":
         """
         Parse a ``study.antares`` file and return a new instance of the object.
 
@@ -126,7 +126,7 @@ class StudyAntares:
             editor=section.get("editor", author),
         )
 
-    def to_ini_file(self, study_dir: t.Union[str, Path], update_save_date: bool = True) -> None:
+    def to_ini_file(self, study_dir: str | Path, update_save_date: bool = True) -> None:
         """
         Serialize the object to a ``study.antares`` file.
 

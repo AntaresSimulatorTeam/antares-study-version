@@ -145,9 +145,7 @@ class ScenarioMapping(collections.abc.Mapping):
 
             return methods
 
-    def __getitem__(
-        self, index: t.Union[int, StudyVersion, slice]
-    ) -> t.Union[UpgradeMethod, t.Sequence[UpgradeMethod]]:
+    def __getitem__(self, index: int | StudyVersion | slice) -> UpgradeMethod | t.Sequence[UpgradeMethod]:
         """
         Get the upgrade method from the given version or slice (range of versions).
 

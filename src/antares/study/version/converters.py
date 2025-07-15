@@ -3,8 +3,9 @@ Antares Study (and Solver) version models.
 """
 
 import typing as t
+from typing import TypeAlias
 
-AnyVersionType = t.Union[int, str, t.Sequence[t.Union[int, str]], t.Mapping[str, t.Union[int, str]]]
+AnyVersionType: TypeAlias = int | str | t.Sequence[int | str] | t.Mapping[str, int | str]
 
 
 def version_int_to_triplet(version: int) -> tuple[int, int, int]:
