@@ -24,7 +24,7 @@ class TestSolverVersion:
             pytest.param(("4",), (4, 0, 0)),
         ],
     )
-    def test_init(self, args: t.Sequence[t.Union[int, str]], expected: t.Tuple[int, int, int]) -> None:
+    def test_init(self, args: t.Sequence[t.Union[int, str]], expected: tuple[int, int, int]) -> None:
         version = SolverVersion(*args)
         assert version.major == expected[0]
         assert version.minor == expected[1]
@@ -84,7 +84,7 @@ class TestStudyVersion:
             pytest.param(("4",), (4, 0)),
         ],
     )
-    def test_init(self, args: t.Sequence[t.Union[int, str]], expected: t.Tuple[int, int, int]) -> None:
+    def test_init(self, args: t.Sequence[t.Union[int, str]], expected: tuple[int, int, int]) -> None:
         version = StudyVersion(*args)
         assert version.major == expected[0]
         assert version.minor == expected[1]

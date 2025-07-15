@@ -7,7 +7,7 @@ import typing as t
 AnyVersionType = t.Union[int, str, t.Sequence[t.Union[int, str]], t.Mapping[str, t.Union[int, str]]]
 
 
-def version_int_to_triplet(version: int) -> t.Tuple[int, int, int]:
+def version_int_to_triplet(version: int) -> tuple[int, int, int]:
     if 0 <= version < 100:
         # Consider a major version
         return version, 0, 0
@@ -20,7 +20,7 @@ def version_int_to_triplet(version: int) -> t.Tuple[int, int, int]:
         raise ValueError("unsupported integer value")
 
 
-def version_str_to_triplet(version: str) -> t.Tuple[int, int, int]:
+def version_str_to_triplet(version: str) -> tuple[int, int, int]:
     try:
         if version.count(".") == 0:
             return version_int_to_triplet(int(version))
@@ -36,7 +36,7 @@ def version_str_to_triplet(version: str) -> t.Tuple[int, int, int]:
         raise ValueError(str(exc)) from None
 
 
-def version_to_triplet(version: AnyVersionType) -> t.Tuple[int, int, int]:
+def version_to_triplet(version: AnyVersionType) -> tuple[int, int, int]:
     """
     Convert a version number to a tuple of three integers.
 

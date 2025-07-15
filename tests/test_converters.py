@@ -20,7 +20,7 @@ from antares.study.version.converters import (
         pytest.param(-9, (0, 0, 0), marks=pytest.mark.xfail(raises=ValueError, strict=True)),
     ],
 )
-def test_version_int_to_triplet(version: int, expected: t.Tuple[int, int, int]) -> None:
+def test_version_int_to_triplet(version: int, expected: tuple[int, int, int]) -> None:
     actual = version_int_to_triplet(version)
     assert actual == expected
 
@@ -37,7 +37,7 @@ def test_version_int_to_triplet(version: int, expected: t.Tuple[int, int, int]) 
         pytest.param("", (0, 0, 0), marks=pytest.mark.xfail(raises=ValueError, strict=True)),
     ],
 )
-def test_version_str_to_triplet(version: str, expected: t.Tuple[int, int, int]) -> None:
+def test_version_str_to_triplet(version: str, expected: tuple[int, int, int]) -> None:
     actual = version_str_to_triplet(version)
     assert actual == expected
 
@@ -64,6 +64,6 @@ def test_version_str_to_triplet(version: str, expected: t.Tuple[int, int, int]) 
         pytest.param({"foo": 5, "bar": 6}, (0, 0, 0), marks=pytest.mark.xfail(raises=ValueError, strict=True)),
     ],
 )
-def test_version_to_triplet(version: AnyVersionType, expected: t.Tuple[int, int, int]) -> None:
+def test_version_to_triplet(version: AnyVersionType, expected: tuple[int, int, int]) -> None:
     actual = version_to_triplet(version)
     assert actual == expected
