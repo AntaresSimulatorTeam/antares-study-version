@@ -1,6 +1,14 @@
 Changelog
 =========
 
+v1.0.19 (2025-07-15)
+-------------------
+
+## What's Changed
+* feat(version): handle Simulator v9.3  [`46`](https://github.com/AntaresSimulatorTeam/antares-study-version/pull/46)
+* chore: drop support of old Python versions [`47`](https://github.com/AntaresSimulatorTeam/antares-study-version/pull/47)
+
+
 v1.0.18 (2025-07-07)
 -------------------
 
