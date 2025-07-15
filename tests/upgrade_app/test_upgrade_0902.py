@@ -20,10 +20,10 @@ def test_nominal_case(study_assets: StudyAssets):
 
     # compare hydro.ini
     actual_hydro_ini_path = study_assets.study_dir / "input" / "hydro" / "hydro.ini"
-    actual = IniReader().read(actual_hydro_ini_path)
+    actual_hydro_content = IniReader().read(actual_hydro_ini_path)
     expected_path = study_assets.expected_dir / "input" / "hydro" / "hydro.ini"
-    expected = IniReader().read(expected_path)
-    assert actual == expected
+    expected_hydro_content = IniReader().read(expected_path)
+    assert actual_hydro_content == expected_hydro_content
 
     # compare st-storage folders (st-storage)
     actual_input_path = study_assets.study_dir / "input" / "st-storage"
