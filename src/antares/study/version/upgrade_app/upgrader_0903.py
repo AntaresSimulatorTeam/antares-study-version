@@ -1,7 +1,5 @@
 from pathlib import Path
 
-import typing as t
-
 from antares.study.version.model.study_version import StudyVersion
 
 from .upgrade_method import UpgradeMethod
@@ -9,7 +7,7 @@ from ..model.general_data import GeneralData
 
 
 def upgrade_thematic_trimming(data: GeneralData) -> None:
-    def _get_thermal_variables_to_remove() -> t.Set[str]:
+    def _get_thermal_variables_to_remove() -> set[str]:
         groups = {
             "nuclear",
             "lignite",
@@ -25,7 +23,7 @@ def upgrade_thematic_trimming(data: GeneralData) -> None:
         }
         return groups
 
-    def _get_renewable_variables_to_remove() -> t.Set[str]:
+    def _get_renewable_variables_to_remove() -> set[str]:
         groups = {
             "wind offshore",
             "wind onshore",
@@ -44,7 +42,7 @@ def upgrade_thematic_trimming(data: GeneralData) -> None:
     var_renewable_to_remove = _get_renewable_variables_to_remove()
     var_to_remove = var_thermal_to_remove.union(var_renewable_to_remove)
 
-    d: t.Dict[str, t.List[str]] = {}
+    d: dict[str, list[str]] = {}
     for sign in ["+", "-"]:
         select_var_key = f"select_var {sign}"
         original_vars = variables_selection.get(select_var_key, [])

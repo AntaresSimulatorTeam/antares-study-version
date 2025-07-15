@@ -1,8 +1,6 @@
 from itertools import product
 from pathlib import Path
 
-import typing as t
-
 from antares.study.version.ini_reader import IniReader
 from antares.study.version.ini_writer import IniWriter
 from antares.study.version.model.study_version import StudyVersion
@@ -12,7 +10,7 @@ from ..model.general_data import GENERAL_DATA_PATH, GeneralData
 
 
 def _upgrade_thematic_trimming(data: GeneralData) -> None:
-    def _get_variables_to_remove() -> t.Set[str]:
+    def _get_variables_to_remove() -> set[str]:
         groups = ["psp_open", "psp_closed", "pondage", "battery", "other1", "other2", "other3", "other4", "other5"]
         outputs = ["injection", "withdrawal", "level"]
         return {f"{group}_{output}" for group, output in product(groups, outputs)}
