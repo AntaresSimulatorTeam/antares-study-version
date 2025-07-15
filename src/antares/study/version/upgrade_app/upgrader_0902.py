@@ -6,41 +6,34 @@ import typing as t
 from antares.study.version.ini_reader import IniReader
 from antares.study.version.ini_writer import IniWriter
 from antares.study.version.model.study_version import StudyVersion
-from .exceptions import UnexpectedThematicTrimmingFieldsError
 
 from .upgrade_method import UpgradeMethod
 from ..model.general_data import GENERAL_DATA_PATH, GeneralData
 
 
 def _upgrade_thematic_trimming(data: GeneralData) -> None:
-    def _get_possible_variables() -> t.Set[str]:
+    def _get_variables_to_remove() -> t.Set[str]:
         groups = ["psp_open", "psp_closed", "pondage", "battery", "other1", "other2", "other3", "other4", "other5"]
         outputs = ["injection", "withdrawal", "level"]
         return {f"{group}_{output}" for group, output in product(groups, outputs)}
 
     variables_selection = data["variables selection"]
-    possible_variables = _get_possible_variables()
-    d: t.Dict[str, t.Dict[str, t.List[str]]] = {}
-    for sign in ["+", "-"]:
-        select_var = f"select_var {sign}"
-        d[select_var] = {"keep": [], "remove": []}
-        # The 'remove' list gathers all fields that should not be kept after the upgrade.
-        # It applies to any field inside the 27 listed by the `_get_possible_variables` method.
-        # The 'keep' list gathers all fields that have nothing to do with the upgrade and therefore should be kept.
-        # We check these fields for enabled and disabled variables (symbolized by +/-) as we can have both.
-        # In the end, we remove all legacy fields and replace them by one field only: 'STS by group'.
-        # For more information, see https://antares-simulator.readthedocs.io/en/latest/user-guide/04-migration-guides/#short-term-storage-groups
-        for var in variables_selection.get(select_var, []):
-            key = "remove" if var.lower() in possible_variables else "keep"
-            d[select_var][key].append(var)
+    var_to_remove = _get_variables_to_remove()
 
-    if d["select_var +"]["remove"] and d["select_var -"]["remove"]:
-        raise UnexpectedThematicTrimmingFieldsError(d["select_var +"]["remove"], d["select_var -"]["remove"])
+    # Process both signs
     for sign in ["+", "-"]:
-        select_var = f"select_var {sign}"
-        if d[select_var]["keep"]:
-            d[select_var]["keep"].append("STS by group")
-            variables_selection[select_var] = d[select_var]["keep"]
+        select_var_key = f"select_var {sign}"
+        original_vars = variables_selection.get(select_var_key, [])
+
+        # Filter variables not in var_to_remove
+        filtered_vars = [var for var in original_vars if var.lower() not in var_to_remove]
+
+        # Special handling for "+": add "STS BY GROUP" if any original var was in var_to_remove
+        if sign == "+":
+            if any(var.lower() in var_to_remove for var in original_vars):
+                filtered_vars.append("STS BY GROUP")
+
+        variables_selection[select_var_key] = filtered_vars
 
 
 class UpgradeTo0902(UpgradeMethod):
