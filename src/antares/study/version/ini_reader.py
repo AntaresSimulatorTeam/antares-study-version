@@ -4,7 +4,7 @@ import typing as t
 from abc import ABC, abstractmethod
 from pathlib import Path
 
-JSON = t.Dict[str, t.Any]
+JSON = dict[str, t.Any]
 
 
 def convert_value(value: str) -> t.Union[str, int, float, bool]:
@@ -148,7 +148,7 @@ class IniReader(IReader):
         self._section_name = section_name
 
         # Dictionary of parsed sections and options
-        self._curr_sections: t.Dict[str, t.Dict[str, t.Any]] = {}
+        self._curr_sections: dict[str, dict[str, t.Any]] = {}
 
         # Current section name used during paring
         self._curr_section = ""

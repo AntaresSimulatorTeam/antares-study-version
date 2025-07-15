@@ -36,7 +36,7 @@ class TestShowApp:
     def test_available_upgrades(self, study_dir: Path) -> None:
         app = ShowApp(study_dir)
         actual = app.available_upgrades
-        expected: t.List[StudyVersion] = []
+        expected: list[StudyVersion] = []
         assert actual == expected
 
         # patch version

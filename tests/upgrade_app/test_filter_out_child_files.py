@@ -28,5 +28,5 @@ from antares.study.version.upgrade_app import filter_out_child_files
         ),
     ],
 )
-def test_filter_out_child_files(files: t.List[str], expected: t.List[str]) -> None:
+def test_filter_out_child_files(files: list[str], expected: list[str]) -> None:
     assert filter_out_child_files(files) == expected

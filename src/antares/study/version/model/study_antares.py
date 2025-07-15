@@ -88,7 +88,7 @@ class StudyAntares:
     # Serialization methods
     # ---------------------
 
-    def to_dict(self) -> t.Dict[str, t.Any]:
+    def to_dict(self) -> dict[str, t.Any]:
         """
         Serialize the object to a dictionary.
         """
