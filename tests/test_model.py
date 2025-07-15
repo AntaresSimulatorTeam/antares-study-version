@@ -429,7 +429,7 @@ class TestScenario:
             ),
         ],
     )
-    def test_sort_min_max(self, versions: t.Sequence[t.Union[StudyVersion, SolverVersion]]) -> None:
+    def test_sort_min_max(self, versions: t.Sequence[StudyVersion | SolverVersion]) -> None:
         """
         Sort versions
         """
