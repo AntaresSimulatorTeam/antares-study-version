@@ -12,7 +12,6 @@ class UpgradeTo0900(UpgradeMethod):
 
     old = StudyVersion(8, 8)
     new = StudyVersion(9, 0)
-    files = ["study.antares"]
 
     @classmethod
     def upgrade(cls, study_dir: Path) -> None:

@@ -3,7 +3,7 @@ from pathlib import Path
 from antares.study.version.model.study_version import StudyVersion
 
 from .upgrade_method import UpgradeMethod
-from ..model.general_data import GeneralData
+from ..model.general_data import GeneralData, GENERAL_DATA_PATH
 
 
 def upgrade_thematic_trimming(data: GeneralData) -> None:
@@ -75,6 +75,7 @@ class UpgradeTo0903(UpgradeMethod):
 
     old = StudyVersion(9, 2)
     new = StudyVersion(9, 3)
+    files = [GENERAL_DATA_PATH]
 
     @staticmethod
     def _upgrade_general_data(study_dir: Path) -> None:

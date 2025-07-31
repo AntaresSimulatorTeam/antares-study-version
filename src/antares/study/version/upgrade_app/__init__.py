@@ -115,16 +115,20 @@ class UpgradeApp:
             try:
                 # Perform the upgrade
                 for meth in self.upgrade_methods:
-                    meth.upgrade(self.study_dir)
+                    meth.upgrade(tmp_path)
 
                 # Update the 'study.antares' file
                 self.study_antares.version = self.version
-                self.study_antares.to_ini_file(self.study_dir)
+                self.study_antares.to_ini_file(tmp_path)
 
             except Exception:
-                # If an error occurs, restore the original files
-                self._safely_replace_original_files(files_to_retrieve, tmp_path)
+                # If an error occurs, removes the tmp_path
+                shutil.rmtree(tmp_path)
                 raise
+
+            else:
+                # Everything went well, replace the original files with the upgraded ones
+                self._safely_replace_original_files(files_to_retrieve, tmp_path)
 
     def _copies_only_necessary_files(self, files_to_upgrade: t.Collection[str], tmp_path: Path) -> list[str]:
         """
