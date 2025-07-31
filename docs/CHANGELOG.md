@@ -1,6 +1,13 @@
 Changelog
 =========
 
+v1.0.19 (2025-07-31)
+-------------------
+
+## What's Changed
+* fix(upgrader): issue with v9.3 and in general  [`49`](https://github.com/AntaresSimulatorTeam/antares-study-version/pull/49)
+
+
 v1.0.19 (2025-07-15)
 -------------------
 
