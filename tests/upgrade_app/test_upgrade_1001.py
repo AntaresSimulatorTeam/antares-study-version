@@ -1,31 +1,27 @@
-from pathlib import Path
-
-from antares.study.version import StudyVersion
-from antares.study.version.ini_reader import IniReader
-from antares.study.version.upgrade_app import UpgradeApp
-
-STUDY_ANTARES_FILE = """\
-[antares]
-caption = Thermal fleet optimization
-version = 9.3
-created = 1246524135
-lastsave = 1686128483
-author = John Doe
-"""
+from antares.study.version.model.general_data import GENERAL_DATA_PATH, GeneralData
+from antares.study.version.upgrade_app.upgrader_1001 import UpgradeTo1001
+from tests.conftest import StudyAssets
+from tests.helpers import DEFAULT_IGNORES, are_same_dir
 
 
-def test_nominal_case(tmp_path: Path) -> None:
+def test_nominal_case(study_assets: StudyAssets):
     """
-    Check that upgrading from 9.3 to 10.1 only bumps the version number.
-
-    The 9.3 -> 10.1 upgrade is a no-op on disk: only ``study.antares`` is updated.
+    Check that the `hydro-rule-curves` compatibility flag is added to `generaldata.ini`
+    and that no other file is modified.
     """
-    study_dir = tmp_path / "My Study"
-    study_dir.mkdir()
-    (study_dir / "study.antares").write_text(STUDY_ANTARES_FILE)
 
-    app = UpgradeApp(study_dir, version=StudyVersion(10, 1))  # type: ignore
-    app()
+    # upgrade the study
+    UpgradeTo1001.upgrade(study_assets.study_dir)
 
-    actual = IniReader().read(study_dir / "study.antares")
-    assert str(actual["antares"]["version"]) == "10.1"
+    # compare generaldata.ini
+    actual = GeneralData.from_ini_file(study_assets.study_dir)
+    expected = GeneralData.from_ini_file(study_assets.expected_dir)
+    assert actual == expected
+    assert actual["compatibility"]["hydro-rule-curves"] == "single"
+
+    # the upgrade only touches generaldata.ini: everything else must be untouched
+    assert are_same_dir(
+        study_assets.study_dir,
+        study_assets.expected_dir,
+        ignore=DEFAULT_IGNORES | {GENERAL_DATA_PATH.split("/")[-1]},
+    )

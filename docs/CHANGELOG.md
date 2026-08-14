@@ -5,7 +5,9 @@ Unreleased
 ----------
 
 ## What's Changed
-* feat(version): handle Simulator v10.1
+* feat(version): handle Simulator v10.1 — upgrading a 9.3 study to 10.1 adds the
+  `hydro-rule-curves = single` compatibility flag (scenarized hydro reservoir levels)
+  to `settings/generaldata.ini`.
 
 TODO before release:
 * Add the create-app template `src/antares/study/version/create_app/resources/empty_study_10.01.zip`

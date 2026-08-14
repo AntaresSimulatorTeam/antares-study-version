@@ -119,6 +119,8 @@ class TestCli:
             "lastsave = 1686128483\n"
             "author = John Doe\n"
         )
+        (study_dir / "settings").mkdir()
+        (study_dir / "settings" / "generaldata.ini").write_text("[compatibility]\nhydro-pmax = daily\n")
 
         runner = CliRunner()
         result = runner.invoke(t.cast(click.BaseCommand, cli), ["upgrade", str(study_dir), "--version=10.1"])
@@ -126,3 +128,6 @@ class TestCli:
 
         actual_antares = IniReader().read(study_dir / "study.antares", section="antares")
         assert str(actual_antares["antares"]["version"]) == "10.1"
+
+        general_data = IniReader().read(study_dir / "settings" / "generaldata.ini")
+        assert general_data["compatibility"]["hydro-rule-curves"] == "single"
