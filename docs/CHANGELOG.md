@@ -1,6 +1,17 @@
 Changelog
 =========
 
+Unreleased
+----------
+
+## What's Changed
+* feat(version): handle Simulator v10.1
+
+TODO before release:
+* Add the create-app template `src/antares/study/version/create_app/resources/empty_study_10.01.zip`
+  (reference empty study exported from Antares 10.1) so studies can be created directly in v10.1.
+
+
 v1.0.20 (2025-07-31)
 -------------------
 

@@ -18,6 +18,7 @@ from .upgrader_0808 import UpgradeTo0808
 from .upgrader_0900 import UpgradeTo0900
 from .upgrader_0902 import UpgradeTo0902
 from .upgrader_0903 import UpgradeTo0903
+from .upgrader_1001 import UpgradeTo1001
 
 ALL_UPGRADE_METHODS = (
     UpgradeTo0701(),
@@ -34,7 +35,21 @@ ALL_UPGRADE_METHODS = (
     UpgradeTo0900(),
     UpgradeTo0902(),
     UpgradeTo0903(),
+    UpgradeTo1001(),
 )
+
+
+def available_upgrade_versions() -> list[str]:
+    """
+    Return the list of versions a study can be upgraded to.
+
+    Unlike the create-app templates, these targets are derived from the registered
+    upgrade methods, so a version is upgradable even if it has no empty-study template yet.
+
+    Returns:
+        The upgrade target versions as ``"X.Y"`` strings, in ascending order.
+    """
+    return [f"{meth.new:2d}" for meth in ALL_UPGRADE_METHODS]
 
 
 class ScenarioMapping(collections.abc.Mapping):

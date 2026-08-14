@@ -33,7 +33,7 @@ class TestCli:
         assert result.exit_code == 0
         show_str = result.output.strip()
         assert "Caption: Thermal fleet optimization" in show_str
-        assert "Version: v9.3" in show_str
+        assert "Version: v10.1" in show_str
         assert "Created: 2009-07-02 08:42:15" in show_str
         assert "Last Save: 2023-06-07 09:01:23" in show_str
         assert "Author: John Doe" in show_str
@@ -105,3 +105,24 @@ class TestCli:
             "author": "Robert Smith",
             "editor": "Robert Smith",
         }
+
+    def test_upgrade__to_10_1(self, tmp_path: Path) -> None:
+        # A version can be an upgrade target even without an empty-study template,
+        # so the CLI must accept `--version=10.1` (no create-app resource for it yet).
+        study_dir = tmp_path / "My Study"
+        study_dir.mkdir()
+        (study_dir / "study.antares").write_text(
+            "[antares]\n"
+            "caption = Thermal fleet optimization\n"
+            "version = 9.3\n"
+            "created = 1246524135\n"
+            "lastsave = 1686128483\n"
+            "author = John Doe\n"
+        )
+
+        runner = CliRunner()
+        result = runner.invoke(t.cast(click.BaseCommand, cli), ["upgrade", str(study_dir), "--version=10.1"])
+        assert result.exit_code == 0, result.output
+
+        actual_antares = IniReader().read(study_dir / "study.antares", section="antares")
+        assert str(actual_antares["antares"]["version"]) == "10.1"
