@@ -40,12 +40,12 @@ class TestCli:
 
     @pytest.mark.parametrize("study_version", list(TEMPLATES_BY_VERSIONS))
     def test_cli__create(self, tmp_path: Path, study_version: StudyVersion) -> None:
-        now = datetime.datetime.now()
-
         study_dir = tmp_path / "My Study"
         runner = CliRunner()
         args = ["create", str(study_dir), f"--version={study_version:2d}", "--author=Jane Doe", "--caption=New Study"]
+        before = datetime.datetime.now()
         result = runner.invoke(t.cast(click.BaseCommand, cli), args)
+        after = datetime.datetime.now()
         assert result.exit_code == 0, result.output
 
         study_antares_file = study_dir / "study.antares"
@@ -68,9 +68,10 @@ class TestCli:
         assert expected == section_dict
         created_date = datetime.datetime.fromtimestamp(float(section_dict["created"]))
         last_save_date = datetime.datetime.fromtimestamp(float(section_dict["lastsave"]))
+        # The dates are stored as whole seconds, so they may be truncated by up to one second.
         one_sec = datetime.timedelta(seconds=1)
-        assert now - one_sec <= created_date <= now + one_sec
-        assert now - one_sec <= last_save_date <= now + one_sec
+        assert before - one_sec <= created_date <= after
+        assert before - one_sec <= last_save_date <= after
 
     def test_cli__create__versions(self) -> None:
         runner = CliRunner()
