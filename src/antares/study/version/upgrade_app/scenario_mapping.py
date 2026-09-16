@@ -19,6 +19,7 @@ from .upgrader_0900 import UpgradeTo0900
 from .upgrader_0902 import UpgradeTo0902
 from .upgrader_0903 import UpgradeTo0903
 from .upgrader_1001 import UpgradeTo1001
+from .upgrader_1002 import UpgradeTo1002
 
 ALL_UPGRADE_METHODS = (
     UpgradeTo0701(),
@@ -36,6 +37,7 @@ ALL_UPGRADE_METHODS = (
     UpgradeTo0902(),
     UpgradeTo0903(),
     UpgradeTo1001(),
+    UpgradeTo1002(),
 )
 
 

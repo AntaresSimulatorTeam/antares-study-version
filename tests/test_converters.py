@@ -1,5 +1,3 @@
-import typing as t
-
 import pytest
 
 from antares.study.version.converters import (
