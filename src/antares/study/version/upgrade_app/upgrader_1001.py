@@ -27,5 +27,5 @@ class UpgradeTo1001(UpgradeMethod):
             study_dir: The study directory.
         """
         data = GeneralData.from_ini_file(study_dir)
-        data.setdefault("compatibility", {})["hydro-rule-curves"] = "single"
+        data.setdefault("compatibility", {}).setdefault("hydro-rule-curves", "single")
         data.to_ini_file(study_dir)
