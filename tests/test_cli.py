@@ -132,3 +132,33 @@ class TestCli:
 
         general_data = IniReader().read(study_dir / "settings" / "generaldata.ini")
         assert general_data["compatibility"]["hydro-rule-curves"] == "single"
+
+    def test_upgrade__to_10_2(self, tmp_path: Path) -> None:
+        # A version can be an upgrade target even without an empty-study template,
+        # so the CLI must accept `--version=10.2` (no create-app resource for it yet).
+        study_dir = tmp_path / "My Study"
+        study_dir.mkdir()
+        (study_dir / "study.antares").write_text(
+            "[antares]\n"
+            "caption = Thermal fleet optimization\n"
+            "version = 10.1\n"
+            "created = 1246524135\n"
+            "lastsave = 1686128483\n"
+            "author = John Doe\n"
+        )
+        (study_dir / "settings").mkdir()
+        (study_dir / "settings" / "generaldata.ini").write_text(
+            "[general]\nintra-modal = \nhorizon = \nreadonly = False\n\n[compatibility]\nhydro-rule-curves = single\n"
+        )
+
+        runner = CliRunner()
+        result = runner.invoke(t.cast(click.BaseCommand, cli), ["upgrade", str(study_dir), "--version=10.2"])
+        assert result.exit_code == 0, result.output
+
+        actual_antares = IniReader().read(study_dir / "study.antares", section="antares")
+        assert str(actual_antares["antares"]["version"]) == "10.2"
+
+        general_data = IniReader().read(study_dir / "settings" / "generaldata.ini")
+        assert general_data["optimization"]["include-reserves"] is False
+        for key in ("intra-modal", "correlateddraws", "horizon", "readonly"):
+            assert key not in general_data["general"]
