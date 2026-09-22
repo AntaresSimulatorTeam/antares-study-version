@@ -1,6 +1,16 @@
 Changelog
 =========
 
+Unreleased
+----------
+
+## What's Changed
+* feat(version): handle Simulator v10.1 — upgrading a 9.3 study to 10.1 adds the
+  `hydro-rule-curves = single` compatibility flag (scenarized hydro reservoir levels)
+  to `settings/generaldata.ini`.
+
+
+
 v1.0.20 (2025-07-31)
 -------------------
 
