@@ -1,6 +1,3 @@
-import typing as t
-
-
 class ValidationError(ValueError):
     """
     Exception raised when a validation error occurs.
