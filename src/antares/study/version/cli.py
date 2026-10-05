@@ -17,6 +17,7 @@ from antares.study.version.create_app import CreateApp, available_versions
 from antares.study.version.exceptions import ApplicationError
 from antares.study.version.show_app import ShowApp
 from antares.study.version.upgrade_app import UpgradeApp
+from antares.study.version.upgrade_app.scenario_mapping import available_upgrade_versions
 
 INTERRUPTED_BY_THE_USER = "Operation interrupted by the user."
 
@@ -128,10 +129,10 @@ def create(study_dir: str, caption: str, version: str, author: str) -> None:
 @click.option(
     "-v",
     "--version",
-    default=available_versions()[-1],
-    help="Version of the study to create",
+    default=available_upgrade_versions()[-1],
+    help="Version to upgrade the study to",
     show_default=True,
-    type=click.Choice(available_versions()),
+    type=click.Choice(available_upgrade_versions()),
 )
 def upgrade(study_dir: str, version: str) -> None:
     """
