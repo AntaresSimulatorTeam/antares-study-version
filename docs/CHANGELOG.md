@@ -1,19 +1,6 @@
 Changelog
 =========
 
-Unreleased
-----------
-
-## What's Changed
-* feat(version): handle Simulator v10.2 — upgrading a 9.3 study to 10.2 (direct upgrade,
-  there is no 10.1 step) updates `settings/generaldata.ini`:
-  - adds the `compatibility/hydro-rule-curves = single` flag (scenarized hydro reservoir levels),
-  - adds the `optimization/include-reserves = false` property,
-  - removes the deprecated `intra-modal`, `correlateddraws`, `horizon` and `readonly`
-    properties of the `general` section.
-
-
-
 v1.0.20 (2025-07-31)
 -------------------
 
