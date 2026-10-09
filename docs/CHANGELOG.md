@@ -1,6 +1,13 @@
 Changelog
 =========
 
+v1.0.21 (2026-10-09)
+-------------------
+
+## What's Changed
+* feat(upgrader): support direct upgrade from v9.3 to v10.2 [`56`](https://github.com/AntaresSimulatorTeam/antares-study-version/pull/56)
+
+
 v1.0.20 (2025-07-31)
 -------------------
 
