@@ -22,9 +22,11 @@ def test_nominal_case(study_assets: StudyAssets):
     for key in ("intra-modal", "correlateddraws", "horizon", "readonly"):
         assert key not in actual["general"]
 
-    # the upgrade only touches generaldata.ini: everything else must be untouched
+    # the upgrade only touches generaldata.ini: everything else must be untouched.
+    # study.antares is ignored here because bumping its `version` field is UpgradeApp's
+    # job, not UpgradeTo1002's; the expected fixture still carries the final version (10.2).
     assert are_same_dir(
         study_assets.study_dir,
         study_assets.expected_dir,
-        ignore=DEFAULT_IGNORES | {GENERAL_DATA_PATH.split("/")[-1]},
+        ignore=DEFAULT_IGNORES | {GENERAL_DATA_PATH.split("/")[-1], "study.antares"},
     )
