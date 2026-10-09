@@ -133,5 +133,6 @@ class TestCli:
         general_data = IniReader().read(study_dir / "settings" / "generaldata.ini")
         assert general_data["compatibility"]["hydro-rule-curves"] == "single"
         assert general_data["optimization"]["include-reserves"] is False
-        for key in ("intra-modal", "correlateddraws", "horizon", "readonly"):
+        assert "horizon" in general_data["general"]
+        for key in ("intra-modal", "correlateddraws", "readonly"):
             assert key not in general_data["general"]

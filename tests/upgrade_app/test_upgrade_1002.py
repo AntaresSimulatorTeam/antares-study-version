@@ -7,7 +7,8 @@ from tests.helpers import DEFAULT_IGNORES, are_same_dir
 def test_nominal_case(study_assets: StudyAssets):
     """
     Check that the `hydro-rule-curves` and `include-reserves` flags are added to `generaldata.ini`,
-    that the deprecated `general` properties are removed, and that no other file is modified.
+    that the deprecated `general` properties are removed (except `horizon`, which the web app
+    still needs to know how the input time series were built), and that no other file is modified.
     """
 
     # upgrade the study
@@ -19,7 +20,8 @@ def test_nominal_case(study_assets: StudyAssets):
     assert actual == expected
     assert actual["compatibility"]["hydro-rule-curves"] == "single"
     assert actual["optimization"]["include-reserves"] is False
-    for key in ("intra-modal", "correlateddraws", "horizon", "readonly"):
+    assert "horizon" in actual["general"]
+    for key in ("intra-modal", "correlateddraws", "readonly"):
         assert key not in actual["general"]
 
     # the upgrade only touches generaldata.ini: everything else must be untouched.

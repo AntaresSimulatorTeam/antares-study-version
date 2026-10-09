@@ -23,8 +23,10 @@ class UpgradeTo1002(UpgradeMethod):
         - Adds the ``hydro-rule-curves`` compatibility flag for scenarized hydro reservoir levels.
           Its default value ``single`` preserves the previous behavior.
         - Adds the ``include-reserves`` optimization flag (default ``false``).
-        - Removes the ``intra-modal``, ``correlateddraws``, ``horizon`` and ``readonly`` properties
+        - Removes the ``intra-modal``, ``correlateddraws`` and ``readonly`` properties
           of the ``general`` section, which are now ignored by the simulator.
+          The ``horizon`` property is kept, as it is still used by the web app to know
+          how the input time series were built.
 
         Args:
             study_dir: The study directory.
@@ -33,7 +35,6 @@ class UpgradeTo1002(UpgradeMethod):
         general = data.setdefault("general", {})
         general.pop("intra-modal", None)
         general.pop("correlateddraws", None)
-        general.pop("horizon", None)
         general.pop("readonly", None)
         data.setdefault("optimization", {})["include-reserves"] = False
         data.setdefault("compatibility", {}).setdefault("hydro-rule-curves", "single")
